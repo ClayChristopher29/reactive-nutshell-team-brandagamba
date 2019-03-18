@@ -1,7 +1,7 @@
 import { Route, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 // Comment or uncomment your import as needed
-// import UserAPIManager from "./users/UserManager"
+import UserAPIManager from "./users/UserManager"
 // import EventAPIManager from "./events/EventManager"
 // import NewsAPIManager from "./news/NewsManager"
 // import MessageAPIManager from "./messages/MessageManager"
@@ -29,8 +29,8 @@ export default class ApplicationViews extends Component {
     // Get all info from the API and set state
     // comment or uncomment your module as needed
 
-    //        UserAPIManager.getAllUsers()
-    //             .then(users => newState.users = users)
+           UserAPIManager.getAllUsers()
+                .then(users => newState.users = users)
     //             .then(EventAPIManager.getAllEvents)
     //             .then(events => newState.events = events)
     //             .then(NewsAPIManager.getAllNews)
