@@ -2,10 +2,14 @@ import { Route, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 // Comment or uncomment your import as needed
 import UserAPIManager from "../modules/UserManager"
-// import EventAPIManager from "../modules/EventManager"
+import EventAPIManager from "../modules/EventManager"
 // import NewsAPIManager from "../modules/NewsManager"
 // import MessageAPIManager from "../modules/MessageManager"
 // import FriendAPIManager from "../modules/FriendManager"
+import EventList from './event/EventList'
+import EventForm from './event/EventForm'
+import EventEditForm from './event/EventEditForm'
+
 
 export default class ApplicationViews extends Component {
 
@@ -22,6 +26,36 @@ export default class ApplicationViews extends Component {
   // Check if credentials are in local storage
   // isAuthenticated = () => sessionStorage.getItem("credentials") !== null
 
+
+addEvent = (event) => {
+  EventAPIManager.addEventAndList(event)
+  .then(events => this.setState({
+    events: events
+  }
+))
+}
+
+deleteEvent = (id) => {
+  EventAPIManager.deleteEventAndList(id)
+  .then(events => this.setState({
+    events: events
+  })
+  )}
+
+
+updateEvent = (id) => {
+  EventAPIManager.updateEventAndList(id)
+  .then(events => this.setState({
+    events: events
+  }))
+}
+
+
+
+
+
+
+
   componentDidMount() {
 
     const newState = {}
@@ -31,8 +65,8 @@ export default class ApplicationViews extends Component {
 
            UserAPIManager.getAllUsers()
                 .then(users => newState.users = users)
-    //             .then(EventAPIManager.getAllEvents)
-    //             .then(events => newState.events = events)
+                .then(EventAPIManager.getAllEvents)
+                .then(events => newState.events = events)
     //             .then(NewsAPIManager.getAllNews)
     //             .then(news => newState.news = news)
     //             .then(MessageAPIManager.getAllMessages)
@@ -54,11 +88,21 @@ export default class ApplicationViews extends Component {
           }}
         />
         <Route
-          path="/events" render={props => {
-            return null
-            // Remove null and return the component which will show list of events
+          exact path="/events" render={props => {
+            return <EventList {...props} events={this.state.events} deleteEvent={this.deleteEvent} />
           }}
         />
+        <Route
+           path="/events/new" render={props => {
+            return <EventForm  {...props} events={this.state.events} addEvent={this.addEvent}/>
+          }}
+        />
+         <Route
+           path="/events/edit" render={props => {
+            return <EventEditForm  {...props} events={this.state.events} updateEvent={this.addEvent}/>
+          }}
+        />
+
 
         {/* <Route
           path="/friends" render={props => {
