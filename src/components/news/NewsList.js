@@ -9,6 +9,7 @@ export default class NewsList extends Component {
     return (
       <React.Fragment>
         <div className="NewsHeader">
+        <h2>News</h2>
           <div className="NewsButton">
             <button type="button"
               className="btn btn-secondary"
@@ -23,15 +24,15 @@ export default class NewsList extends Component {
 
         <section className="news-section">
           {
-            this.props.news.map((news) =>
+            this.props.news.reverse().map((news) =>
               <div key={news.id} className="card">
                 <div className="card">
                   <h5 className="card-title">
 
-                    {news.title}{"\n"}
-                    {news.synopsis}{"\n"}
+                    <p><strong>{news.title}</strong></p>
+                    <p>{news.synopsis}</p>
                     <a href={news.url}>link</a>{"\n"}
-                    {news.date}{"\n"}
+                    {news.date}
                     <div className="button-div">
                       <button
                         className="btn btn-primary"

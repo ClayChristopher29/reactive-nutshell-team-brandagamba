@@ -97,17 +97,7 @@ export default class NewsEditForm extends Component {
                             value={this.state.url}
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="date">Date</label>
-                        <input
-                            type="date"
-                            required
-                            className="form-control"
-                            onChange={this.handleFieldChange}
-                            id="date"
-                            value={this.state.date}
-                        />
-                    </div>
+
 
 
 
