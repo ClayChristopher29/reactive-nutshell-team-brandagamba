@@ -39,7 +39,7 @@ export default class ApplicationViews extends Component {
     //             .then(messages => newState.messages = messages)
     //             .then(FriendAPIManager.getAllFriends)
     //             .then(friends => newState.friends = friends)
-    //             .then(() => this.setState(newState))
+                .then(() => this.setState(newState))
 
   }
 
