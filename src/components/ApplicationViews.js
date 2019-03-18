@@ -53,13 +53,19 @@ export default class ApplicationViews extends Component {
             // Remove null and return the component which will show news articles
           }}
         />
-
         <Route
+          path="/events" render={props => {
+            return null
+            // Remove null and return the component which will show list of events
+          }}
+        />
+
+        {/* <Route
           path="/friends" render={props => {
             return null
             // Remove null and return the component which will show list of friends
           }}
-        />
+        /> */}
 
         <Route
           path="/messages" render={props => {
