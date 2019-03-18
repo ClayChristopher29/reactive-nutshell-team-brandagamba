@@ -1,11 +1,11 @@
 import { Route, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 // Comment or uncomment your import as needed
-import UserAPIManager from "./users/UserManager"
-// import EventAPIManager from "./events/EventManager"
-// import NewsAPIManager from "./news/NewsManager"
-// import MessageAPIManager from "./messages/MessageManager"
-// import FriendAPIManager from "./friends/FriendManager"
+import UserAPIManager from "../modules/UserManager"
+// import EventAPIManager from "../modules/EventManager"
+// import NewsAPIManager from "../modules/NewsManager"
+// import MessageAPIManager from "../modules/MessageManager"
+// import FriendAPIManager from "../modules/FriendManager"
 
 export default class ApplicationViews extends Component {
 
