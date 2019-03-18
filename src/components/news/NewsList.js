@@ -42,7 +42,7 @@ export default class NewsList extends Component {
                       >Edit</button>
                       <button className="btn btn-danger"
                         onClick={() => {
-                          this.props.deleteNews(news.id)
+                          this.props.deleteArticle(news.id)
                           this.props.history.push("/")
                         }}>Delete</button>
                     </div>

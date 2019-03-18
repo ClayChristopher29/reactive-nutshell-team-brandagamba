@@ -56,8 +56,8 @@ export default class ApplicationViews extends Component {
   }
 
 
-  deleteNews = (id) => {
-    return NewsAPIManager.deleteNews(id)
+  deleteArticle = (id) => {
+    return NewsAPIManager.deleteArticle(id)
       .then(() => fetch(`http://localhost:5002/news/?userId=${this.state.activeUser}`))
       .then(e => e.json())
       .then(news => this.setState({
@@ -77,68 +77,81 @@ export default class ApplicationViews extends Component {
       )
   }
 
+  editArticle = (editedArticle) => {
+    return NewsAPIManager.editArticle(editedArticle)
+      .then(() => fetch(`http://localhost:5002/news/?userId=${this.state.activeUser}`))
+      .then(e => e.json())
+      .then(news => this.setState({
+        news: news
+
+      })
+      )
+  }
 
 
 
-render() {
-  return (
-    <React.Fragment>
 
-      <Route
-        exact path="/" render={props => {
-          return <NewsList {...props}
-            news={this.state.news}
-            deleteNews={this.deleteNews} />
 
-        }} />
-      <Route
-        exact path="/news/new" render={props => {
-          return <NewsForm {...props}
-            news={this.state.news}
-            addNewArticle = {this.addNewArticle}
-          />
 
-        }} />
+
+  render() {
+    return (
+      <React.Fragment>
+
         <Route
-        exact path="/news/:newsId(\d+)/edit" render={props => {
-          return <NewsEditForm {...props}
-            news={this.state.news}
-            addNewArticle = {this.addNewArticle}
-          />
+          exact path="/" render={props => {
+            return <NewsList {...props}
+              news={this.state.news}
+              deleteArticle={this.deleteArticle} />
 
-        }} />
+          }} />
+        <Route
+          path="/news/new" render={props => {
+            return <NewsForm {...props}
+              news={this.state.news}
+              addNewArticle={this.addNewArticle}
+            />
+
+          }} />
+        <Route
+          path="/news/:newsId(\d+)/edit" render={props => {
+            return <NewsEditForm {...props}
+              news={this.state.news}
+              editArticle={this.editArticle}
+            />
+
+          }} />
 
 
+        <Route
+          path="/events" render={props => {
+            return null
+            // Remove null and return the component which will show list of events
+          }}
+        />
 
-      <Route
-        path="/events" render={props => {
-          return null
-          // Remove null and return the component which will show list of events
-        }}
-      />
-
-      {/* <Route
+        {/* <Route
           path="/friends" render={props => {
             return null
             // Remove null and return the component which will show list of friends
           }}
         /> */}
 
-      <Route
-        path="/messages" render={props => {
-          return null
-          // Remove null and return the component which will show the messages
-        }}
-      />
+        <Route
+          path="/messages" render={props => {
+            return null
+            // Remove null and return the component which will show the messages
+          }}
+        />
 
-      <Route
-        path="/tasks" render={props => {
-          return null
-          // Remove null and return the component which will show the user's tasks
-        }}
-      />
+        <Route
+          path="/tasks" render={props => {
+            return null
+            // Remove null and return the component which will show the user's tasks
+          }}
+        />
 
-    </React.Fragment>
-  );
-}
+      </React.Fragment>
+    );
+  }
 }

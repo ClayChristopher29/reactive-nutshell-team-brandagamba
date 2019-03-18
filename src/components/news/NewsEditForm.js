@@ -43,8 +43,8 @@ export default class NewsEditForm extends Component {
         };
 
         // Create the animal and redirect user to news list
-        NewsAPIManager.editNews(article)
-        this.props.history.push("/")
+        NewsAPIManager.editArticle(article)
+        this.props.history.push("/news")
     }
     componentDidMount() {
         NewsAPIManager.getSingleArticle(this.props.match.params.newsId)
@@ -98,7 +98,7 @@ export default class NewsEditForm extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="url">Link</label>
+                        <label htmlFor="date">Date</label>
                         <input
                             type="date"
                             required
@@ -113,7 +113,7 @@ export default class NewsEditForm extends Component {
 
                     <button
                         type="submit"
-                        onClick={this.constructNewArticle}
+                        onClick={this.editArticle}
                         className="btn btn-success"
                     >
                         Submit

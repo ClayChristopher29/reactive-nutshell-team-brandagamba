@@ -8,7 +8,7 @@ export default {
       return fetch(`http://localhost:5002/news/${id}`)
         .then(r => r.json())
     },
-    deleteNews: (id) => {
+    deleteArticle: (id) => {
       return fetch(`http://localhost:5002/news/${id}`, {
         method: "DELETE"
       })
@@ -23,13 +23,13 @@ export default {
         body: JSON.stringify(newArticle)
       }).then(data => data.json())
     },
-    editNews(editedNews) {
-      return fetch(`http://localhost:5002/news/${editedNews.id}`, {
+    editArticle(editedArticle) {
+      return fetch(`http://localhost:5002/news/${editedArticle.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(editedNews)
+        body: JSON.stringify(editedArticle)
       }).then(data => data.json());
     }
 

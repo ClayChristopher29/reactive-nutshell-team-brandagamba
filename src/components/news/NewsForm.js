@@ -85,7 +85,7 @@ render() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="url">Link</label>
+                    <label htmlFor="date">Date</label>
                     <input
                         type="date"
                         required
