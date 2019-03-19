@@ -7,48 +7,68 @@ export default class MessageList extends Component {
 
     state = {
         activeUser: this.props.activeUser,
-        message: ""
+        message: "",
+        messageToEdit: ""
     }
 
 
-    currentUserMsg = (message) => {
+    renderSingleMessage = (message) => {
         return (
             <React.Fragment>
 
-                <div><a href=""><span className="current">{message.user.username}</span></a>
+                <div id={message.id}><a href="">
+                    {/* check to see if the message is from the current user and set styling accordingly */}
+                    <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
+                        {message.user.username}</span></a>
                     <span>- {message.message}</span>
-                    <button className="btn btn-primary">edit</button>
+                    {/* check to see if the message is from the current user and add an edit button */}
+                    {(message.userId === parseInt(this.state.activeUser) ?
+                        <button className="btn-sm btn-primary"
+                            onClick={() => this.handleEdit(message)}>edit</button>
+                        : "")}
+
                     <p></p>
                 </div>
+
             </React.Fragment>
         )
     }
-    handleEdit = (message) => {
+    renderEditForm = (message) => {
         console.log("inside edit")
-        return <form>
-            <div className="form-group">
-                <label htmlFor="message">Link</label>
-                <input
-                    type="text"
-                    required
-                    className="form-control"
-                    onChange={this.handleFieldChange}
-                    id="message"
-                    value={message}
-                />
-            </div>
-            <button
-                type="submit"
-                onClick={this.editThisMessage}
-                className="btn btn-success"
-            >Submit</button>
-        </form>
+        return (
+            <React.Fragment>
+                <div className="form-group">
+                    <label htmlFor="message"></label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        onChange={this.handleFieldChange}
+                        id="message"
+                        value={message.message}
+                    />
+                </div>
+                <button
+                    type="submit"
+                    onClick={this.editThisMessage}
+                    className="btn-sm btn-success"
+                >Submit</button>
+
+            </React.Fragment>)
 
 
     }
 
-    editThisMessage=()=>{
+    editThisMessage = () => {
 
+        const editedMessage = {
+
+            id: this.state.messageToEdit.id,
+            message: this.state.message,
+            timestamp: this.state.messageToEdit.timestamp
+        }
+        //call "POST" function to add message to database and refresh
+        this.props.editMessage(editedMessage)
+        this.props.history.push("/messages")
 
 
     }
@@ -86,19 +106,10 @@ export default class MessageList extends Component {
                 <h2> Messages</h2>
                 <div className="message-container">
                     {this.props.messages.map((message) =>
-                        <div id={message.id}><a href="">
-                            {/* check to see if the message is from the current user and set styling accordingly */}
-                            <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
-                                {message.user.username}</span></a>
-                            <span>- {message.message}</span>
-                            {/* check to see if the message is from the current user and add an edit button */}
-                            {(message.userId === parseInt(this.state.activeUser) ?
-                                <button className="btn-sm btn-primary"
-                                    onClick={()=>this.handleEdit(message[message])}>edit</button>
-                                : "")}
-
-                            <p></p>
-                        </div>
+                        <React.Fragment>
+                            <section>{this.renderSingleMessage(message)}</section>
+                            <form>{this.renderEditForm(message)}</form>
+                        </React.Fragment>
                     )}
                 </div>
 

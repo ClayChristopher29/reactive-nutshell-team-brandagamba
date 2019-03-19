@@ -100,6 +100,16 @@ export default class ApplicationViews extends Component {
       )
   }
 
+  // editMessage = (editedMessage) =>{
+  //   return MessageAPIManager.addNewMessage(newMessage)
+  //   .then(MessageAPIManager.getAllMessages)
+  //   .then(messages => this.setState({
+  //     messages: messages
+  //   })
+  //   )
+
+  // }
+
 
   addTask = taskObject => {
     return TaskAPIManager.addNewTask(taskObject)
