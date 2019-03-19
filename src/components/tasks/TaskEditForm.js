@@ -31,6 +31,13 @@ export default class TaskEditForm extends Component {
             this.props.history.push("/tasks")
     }};
 
+    // const date = new Date(this.state.dueDate)
+    //         const task = {
+    //             task: this.state.task,
+    //             dueDate: date.toLocaleDateString(),
+    //             complete: this.state.complete
+    //         }
+
     componentDidMount(){
         TaskManager.getOneTask(this.props.match.params.taskId)
 
@@ -51,7 +58,7 @@ render() {
         </div>
         <div className="form-group">
             <label htmlFor="exampleInputPassword1">Due Date</label>
-            <input type="date" className="form-control" id="dueDate" value={this.state.dueDate} onChange={this.handleFieldChange}/>
+            <input type="date" className="form-control" id="dueDate" value={this.state.dueDate} onChange={this.handleFieldChange} onKeyPress={this.updateTask}/>
         </div>
         </form>
         </React.Fragment>
