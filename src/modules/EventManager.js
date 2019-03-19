@@ -26,6 +26,9 @@ export default {
         },
         body: JSON.stringify(editedEvent)
       }).then(this.getAllEvents);
+    },
+    getSingleEvent(id) {
+      return fetch(`${remoteURL}/events/${id}`).then(r => r.json())
     }
   }
 

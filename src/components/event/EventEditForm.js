@@ -30,8 +30,7 @@ export default class EventForm extends Component {
       };
 
       // Create the event and redirect user to event list
-      this.props
-        .addEvent(event)
+      this.props.updateEvent(event)
         this.props.history.push("/events")
   };
   componentDidMount() {

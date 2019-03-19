@@ -98,7 +98,7 @@ updateEvent = (id) => {
           }}
         />
          <Route
-           path="/events/edit" render={props => {
+           path="/events/:eventId(\d+)/edit" render={props => {
             return <EventEditForm  {...props} events={this.state.events} updateEvent={this.addEvent}/>
           }}
         />
