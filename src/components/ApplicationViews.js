@@ -84,6 +84,14 @@ export default class ApplicationViews extends Component {
       })
       )
   }
+  addNewMessage = (newMessage) => {
+    return NewsAPIManager.addNewArticle(newMessage)
+      .then(NewsAPIManager.getAllmessages)
+      .then(messages => this.setState({
+        messages: messages
+      })
+      )
+  }
 
 
   render() {
@@ -133,6 +141,7 @@ export default class ApplicationViews extends Component {
           path="/messages" render={props => {
 
             return <MessageList {...props}
+            activeUser={this.state.activeUser}
             messages={this.state.messages}
             deleteMessage={this.deleteMessage} />
           }}
