@@ -2,19 +2,27 @@ import { Route, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 // Comment or uncomment your import as needed
 import UserAPIManager from "../modules/UserManager"
-// import EventAPIManager from "../modules/EventManager"
-import NewsAPIManager from "../modules/NewsManager"
+import EventAPIManager from "../modules/EventManager"
 // import MessageAPIManager from "../modules/MessageManager"
 // import FriendAPIManager from "../modules/FriendManager"
+
+import EventList from './event/EventList'
+import EventForm from './event/EventForm'
+import EventEditForm from './event/EventEditForm'
+import NewsAPIManager from "../modules/NewsManager"
+
 import TaskAPIManager from "../modules/TaskManager"
 import TaskList from "./tasks/TaskList"
 import TaskEditForm from "./tasks/TaskEditForm"
 import TaskForm from "./tasks/TaskForm"
+
 import NewsList from "./news/NewsList"
 import NewsForm from "./news/NewsForm"
 import NewsEditForm from "./news/NewsEditForm"
 import AuthenticationManager from "../modules/AuthenticationManager"
 import RegisterForm from "./register/RegisterForm"
+
+
 
 export default class ApplicationViews extends Component {
 
@@ -37,7 +45,43 @@ export default class ApplicationViews extends Component {
 
   // Check if credentials are in local storage
   // isAuthenticated = () => sessionStorage.getItem("credentials") !== null
+
+
+// ********** Event Functions ***********
+addEvent = (event) => {
+  EventAPIManager.addEventAndList(event)
+  .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
+  .then(events => this.setState({
+    events: events
+  }
+))
+}
+
+deleteEvent = (id) => {
+  EventAPIManager.deleteEventAndList(id)
+  .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
+  .then(events => this.setState({
+    events: events
+  })
+  )}
+
+
+updateEvent = (eventObj) => {
+  EventAPIManager.updateEventAndList(eventObj)
+  .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
+  .then(events => this.setState({
+    events: events
+  }))
+}
+
+
+
+
+
+
+
   // activeUser=sessionStorage.getItem(activeUser)
+
   componentDidMount() {
 
 
@@ -48,19 +92,35 @@ export default class ApplicationViews extends Component {
     // Get all info from the API and set state
     // comment or uncomment your module as needed
 
+
+
+           UserAPIManager.getAllUsers()
+                .then(users => newState.users = users)
+                .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
+                .then(events => newState.events = events)
+                .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
+                .then(news => newState.news = news)
+    //             .then(MessageAPIManager.getAllMessages)
+    //             .then(messages => newState.messages = messages)
+    //             .then(FriendAPIManager.getAllFriends)
+    //             .then(friends => newState.friends = friends)
+                .then(() => this.setState(newState))
+
+
     UserAPIManager.getAllUsers()
-      .then(users => newState.users = users)
-      //             .then(EventAPIManager.getAllEvents)
-      //             .then(events => newState.events = events)
-      .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
-      .then(news => newState.news = news)
-      //             .then(MessageAPIManager.getAllMessages)
+                .then(users => newState.users = users)
+                .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
+                .then(events => newState.events = events)
+                .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
+                .then(news => newState.news = news)
+      //              .then(MessageAPIManager.getAllMessages)
       //             .then(messages => newState.messages = messages)
       //             .then(FriendAPIManager.getAllFriends)
       //             .then(friends => newState.friends = friends)
-                      .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
-                      .then(tasks => newState.tasks = tasks)
-      .then(() => this.setState(newState))
+                .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
+                .then(tasks => newState.tasks = tasks)
+                .then(() => this.setState(newState))
+
 
   }
 
@@ -83,6 +143,7 @@ export default class ApplicationViews extends Component {
       })
       )
   }
+
 
   editArticle = (editedArticle) => {
     return NewsAPIManager.editArticle(editedArticle)
@@ -161,11 +222,21 @@ export default class ApplicationViews extends Component {
 
 
         <Route
-          path="/events" render={props => {
-            return null
-            // Remove null and return the component which will show list of events
+          exact path="/events" render={props => {
+            return <EventList {...props} events={this.state.events} deleteEvent={this.deleteEvent} />
           }}
         />
+        <Route
+           path="/events/new" render={props => {
+            return <EventForm  {...props} events={this.state.events} addEvent={this.addEvent}/>
+          }}
+        />
+         <Route
+           path="/events/:eventId(\d+)/edit" render={props => {
+            return <EventEditForm  {...props} events={this.state.events} updateEvent={this.updateEvent}/>
+          }}
+        />
+
 
         {/* <Route
           path="/friends" render={props => {
