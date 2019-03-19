@@ -27,12 +27,12 @@ export default class NewsList extends Component {
             this.props.news.reverse().map((news) =>
               <div key={news.id} className="card">
                 <div className="card">
-                  <h5 className="card-title">
+                  <div className="card-title">
 
-                    <p><strong>{news.title}</strong></p>
+                    <h4><u>{news.title}</u></h4>
                     <p>{news.synopsis}</p>
-                    <a href={news.url}>link</a>{"\n"}
-                    {news.date}
+                    <a href={news.url}>...more details</a>{"\n"}
+                    <h6>{news.date}</h6>
                     <div className="button-div">
                       <button
                         className="btn btn-primary"
@@ -47,7 +47,7 @@ export default class NewsList extends Component {
                           this.props.history.push("/")
                         }}>Delete</button>
                     </div>
-                  </h5>
+                    </div>
                 </div>
               </div>
 
