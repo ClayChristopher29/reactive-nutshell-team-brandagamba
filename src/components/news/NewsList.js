@@ -9,7 +9,7 @@ export default class NewsList extends Component {
     return (
       <React.Fragment>
         <div className="NewsHeader">
-        <h2>News</h2>
+        <h1>News</h1>
           <div className="NewsButton">
             <button type="button"
               className="btn btn-secondary"
