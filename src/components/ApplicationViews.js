@@ -133,7 +133,7 @@ export default class ApplicationViews extends Component {
           path="/messages" render={props => {
 
             return <MessageList {...props}
-            news={this.state.messages}
+            messages={this.state.messages}
             deleteMessage={this.deleteMessage} />
           }}
         />

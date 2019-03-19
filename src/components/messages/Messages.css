@@ -1,0 +1,31 @@
+.message-container {
+
+    width:400px;
+    height: 500px;
+    border: 1px solid darkgray;
+    overflow-y: scroll;
+
+}
+
+.messages-section
+{
+
+    margin-left:30px;
+
+}
+
+.current{
+    color: green;
+}
+
+.other{
+
+    color: red;
+}
+
+.btn-sm{
+padding:0 5px 0 5px;
+margin-left: 10px;
+box-shadow:0 0;
+
+}
