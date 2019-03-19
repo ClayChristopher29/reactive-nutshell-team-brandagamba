@@ -1,58 +1,80 @@
 //Conditionally route in application views so you only see register until logged in
-//Make register form
 //fetch call to username to check for existing username
 //fetch call to email to check for existing email
 //conditional statement (array.length = 0) to create an account
 //then post new user to database
-//sessionStorage.setItem("activeUser") using object id just saved to database
-//Set state to empty
-//handleFieldChange to take values of input boxes and set new state
+//sessionStorage.setItem("activeUser") using objectId just saved to database
 //create new user object
 
 import React, {Component} from "react"
 
 export default class RegisterForm extends Component {
-    state = {
+    //creates new state
 
+    state = {
+        username: "",
+        email: "",
+        errorMessage: ""
     }
+
+    //Handles form imputs and sets them to state
 
     handleFieldChange = evt => {
-
+        const stateToChange = {}
+        stateToChange[evt.target.id] = evt.target.value;
+        this.setState(stateToChange)
     }
+
+    //Checks to see if username or password are already in database. If in database, they will receive an alert and not be able to create an account, otherwise, their information will be posted to the database and they will be logged in with session storage
 
     createNewUser = evt => {
+        evt.preventDefault()
+        let errorMessage = ""
+        if(this.props.checkUserName(this.state.username).length === 0){
+            if(this.props.checkUserEmail(this.state.email).length === 0){
+                const newUser = {
+                    username: this.state.username,
+                    email: this.state.email
+                }
+                this.props.registerNewUser(newUser)
+                this.props.history.push("/")
+            } else {
+                errorMessage = "That email is already registered. Please register with a new email"
+                this.setState({
+                    errorMessage: errorMessage
+                })
+            }
 
+        } else {
+            errorMessage = "That username is already taken. Please enter a different username!"
+            this.setState({
+                errorMessage: errorMessage
+            })
+        }
 
     }
 
 
 
-
+    //Returns form and/or error message
     render(){
         return(
             <React.Fragment>
             <h1>Please Register</h1>
             <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div className="form-group">
+                <label htmlFor="exampleInputEmail1">Username</label>
+                <input type="text" className="form-control" id="username" placeholder="Enter username" onChange={this.handleFieldChange}/>
             </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"/>
+            <div className="form-group">
+                <label htmlFor="exampleInputPassword1">Password</label>
+                <input type="email" className="form-control" id="email" placeholder="Email Address" onChange={this.handleFieldChange}/>
             </div>
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary">Submit</button>
             </form>
+            <h4>{this.errorMessage}</h4>
             </React.Fragment>
 
         )
-
-
     }
-
 }

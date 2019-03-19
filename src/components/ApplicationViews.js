@@ -14,6 +14,7 @@ import NewsList from "./news/NewsList"
 import NewsForm from "./news/NewsForm"
 import NewsEditForm from "./news/NewsEditForm"
 import AuthenticationManager from "../modules/AuthenticationManager"
+import RegisterForm from "./register/RegisterForm"
 
 export default class ApplicationViews extends Component {
 
@@ -118,8 +119,16 @@ export default class ApplicationViews extends Component {
     }))
   }
 
-  addUser = () => {
+  checkUserEmail = (email) => {
+    AuthenticationManager.checkForEmail(email)
+  }
 
+  checkUserName = (username) => {
+    AuthenticationManager.checkForUsername(username)
+  }
+
+  addUser = (userObject) => {
+    return AuthenticationManager
   }
 
   render() {
@@ -190,6 +199,12 @@ export default class ApplicationViews extends Component {
         <Route exact path="/tasks/new" render={props=> {
           return (
             <TaskForm {...props} tasks={this.state.tasks} addTask={this.addTask}/>
+          )
+        }}/>
+
+        <Route exact path="/login" render={props => {
+          return (
+            <RegisterForm {...props} users={this.state.users} checkUserEmail={this.state.checkUserEmail} checkUserName={this.state.checkUserName}/>
           )
         }}/>
 
