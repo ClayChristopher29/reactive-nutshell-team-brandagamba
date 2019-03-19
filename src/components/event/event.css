@@ -13,3 +13,9 @@
     margin: 5em;
 }
 
+.carddb:first-child {
+    font-weight: bold;
+    font-size: 1.4em;
+    background-color: aquamarine;
+}
+

@@ -14,6 +14,7 @@ import NewsForm from "./news/NewsForm"
 import NewsEditForm from "./news/NewsEditForm"
 
 
+
 export default class ApplicationViews extends Component {
 
 
@@ -39,6 +40,7 @@ export default class ApplicationViews extends Component {
 // ********** Event Functions ***********
 addEvent = (event) => {
   EventAPIManager.addEventAndList(event)
+  .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
   .then(events => this.setState({
     events: events
   }
@@ -47,6 +49,7 @@ addEvent = (event) => {
 
 deleteEvent = (id) => {
   EventAPIManager.deleteEventAndList(id)
+  .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
   .then(events => this.setState({
     events: events
   })
@@ -55,6 +58,7 @@ deleteEvent = (id) => {
 
 updateEvent = (eventObj) => {
   EventAPIManager.updateEventAndList(eventObj)
+  .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
   .then(events => this.setState({
     events: events
   }))
@@ -81,9 +85,9 @@ updateEvent = (eventObj) => {
 
            UserAPIManager.getAllUsers()
                 .then(users => newState.users = users)
-                .then(EventAPIManager.getAllEvents)
+                .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
                 .then(events => newState.events = events)
-                .then(NewsAPIManager.getAllNews)
+                .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
                 .then(news => newState.news = news)
     //             .then(MessageAPIManager.getAllMessages)
     //             .then(messages => newState.messages = messages)

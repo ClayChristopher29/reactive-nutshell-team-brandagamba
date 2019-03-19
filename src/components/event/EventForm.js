@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import "./event.css"
+import Moment from 'react-moment';
+
+
 
 
 export default class EventForm extends Component {
@@ -36,6 +39,7 @@ export default class EventForm extends Component {
 
 
     render() {
+
         return(
             <form>
     <div className="form-group">

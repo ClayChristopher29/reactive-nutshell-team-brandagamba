@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./event.css"
+import Moment from 'react-moment';
 
 
 export default class EventList extends Component {
@@ -10,12 +11,14 @@ export default class EventList extends Component {
 
     render() {
         return(
-                <section>
+                <section className="firstClass">
             {this.props.events.map(event=>
-                <div className="card" key={event.id}>
+                <div className="carddb" key={event.id}>
                 <div className="card-body">
-                  <h5 className="card-title">{event.name}</h5>
-                  <h6 className="card-subtitle mb-2 text-muted">{event.date}</h6>
+                  <p className="card-title">{event.name}</p>
+                  <p className="card-subtitle mb-2 text-muted"><Moment format="MM/DD/YYYY">
+               {event.date}
+           </Moment></p>
                   <p className="card-text">{event.location}</p>
                   <button  className="card-link btn btn-primary"
                    onClick={() => {
