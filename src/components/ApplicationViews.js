@@ -4,9 +4,10 @@ import React, { Component } from "react";
 import UserAPIManager from "../modules/UserManager"
 // import EventAPIManager from "../modules/EventManager"
 import NewsAPIManager from "../modules/NewsManager"
-// import MessageAPIManager from "../modules/MessageManager"
+import MessageAPIManager from "../modules/MessageManager"
 // import FriendAPIManager from "../modules/FriendManager"
 import NewsList from "./news/NewsList"
+import MessageList from "./messages/MessageList"
 import NewsForm from "./news/NewsForm"
 import NewsEditForm from "./news/NewsEditForm"
 
@@ -47,8 +48,8 @@ export default class ApplicationViews extends Component {
       //             .then(events => newState.events = events)
       .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
       .then(news => newState.news = news)
-      //             .then(MessageAPIManager.getAllMessages)
-      //             .then(messages => newState.messages = messages)
+                  .then(MessageAPIManager.getAllMessages)
+                  .then(messages => newState.messages = messages)
       //             .then(FriendAPIManager.getAllFriends)
       //             .then(friends => newState.friends = friends)
       .then(() => this.setState(newState))
@@ -130,8 +131,10 @@ export default class ApplicationViews extends Component {
 
         <Route
           path="/messages" render={props => {
-            return null
-            // Remove null and return the component which will show the messages
+
+            return <MessageList {...props}
+            news={this.state.messages}
+            deleteMessage={this.deleteMessage} />
           }}
         />
 
