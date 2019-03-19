@@ -13,6 +13,7 @@ import TaskForm from "./tasks/TaskForm"
 import NewsList from "./news/NewsList"
 import NewsForm from "./news/NewsForm"
 import NewsEditForm from "./news/NewsEditForm"
+import AuthenticationManager from "../modules/AuthenticationManager"
 
 export default class ApplicationViews extends Component {
 
@@ -115,6 +116,10 @@ export default class ApplicationViews extends Component {
     .then(tasks => this.setState({
       tasks: tasks
     }))
+  }
+
+  addUser = () => {
+
   }
 
   render() {
