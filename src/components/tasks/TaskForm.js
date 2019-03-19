@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 export default class TaskForm extends Component {
     state = {
-        tasks: "",
+        task: "",
         dueDate: "",
         complete: false,
         }
@@ -16,12 +16,12 @@ export default class TaskForm extends Component {
 
         addNewTask = evt => {
             evt.preventDefault();
-            const tasks = {
-                tasks: this.state.tasks,
+            const task = {
+                task: this.state.task,
                 dueDate: this.state.dueDate,
                 complete: this.state.complete
             }
-            this.props.addTask(tasks)
+            this.props.addTask(task)
             .then(() => this.props.history.push("/tasks"))
 
         }
@@ -37,7 +37,7 @@ export default class TaskForm extends Component {
             <input
               type="text"
               className="form-control"
-              id="tasks"
+              id="task"
               aria-describedby="emailHelp"
               onChange={this.handleFieldChange}
             />

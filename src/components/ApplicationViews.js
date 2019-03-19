@@ -92,7 +92,7 @@ export default class ApplicationViews extends Component {
   }
 
 
-  addTask(taskObject) {
+  addTask = taskObject => {
     return TaskAPIManager.addNewTask(taskObject)
     .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
     .then(tasks => this.setState({

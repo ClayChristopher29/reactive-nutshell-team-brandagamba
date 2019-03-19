@@ -24,7 +24,7 @@ const TaskManager = {
         return fetch(`http://localhost:5002/tasks`, {
             method: "POST",
             headers: {
-                "Content-Type" : "aaplication/json"
+                "Content-Type" : "application/json"
             },
             body: JSON.stringify(taskObject)
         }).then(r => r.json())

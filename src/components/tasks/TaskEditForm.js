@@ -53,7 +53,6 @@ render() {
             <label htmlFor="exampleInputPassword1">Due Date</label>
             <input type="date" className="form-control" id="dueDate" value={this.state.dueDate} onChange={this.handleFieldChange}/>
         </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
         </form>
         </React.Fragment>
 
