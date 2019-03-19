@@ -16,24 +16,22 @@ export default class MessageList extends Component {
         return (
             <React.Fragment>
 
-                <div id={message.id}><a href="">
-                    {/* check to see if the message is from the current user and set styling accordingly */}
-                    <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
-                        {message.user.username}</span></a>
-                    <span>- {message.message}</span>
-                    {/* check to see if the message is from the current user and add an edit button */}
-                    {(message.userId === parseInt(this.state.activeUser) ?
-                        <button className="btn-sm btn-primary"
-                            onClick={() => this.handleEdit(message)}>edit</button>
-                        : "")}
 
-                    <p></p>
-                </div>
+                <span>- {message.message}</span>
+                {/* check to see if the message is from the current user and add an edit button */}
+                {(message.userId === parseInt(this.state.activeUser) ?
+                    <button className="btn-sm btn-primary"
+                        onClick={() => this.setState({ messageToEdit: message, message:message.message })}>edit</button>
+                    : "")}
+
+                <p></p>
+
 
             </React.Fragment>
         )
     }
     renderEditForm = (message) => {
+
         console.log("inside edit")
         return (
             <React.Fragment>
@@ -44,7 +42,7 @@ export default class MessageList extends Component {
                         className="form-control"
                         onChange={this.handleFieldChange}
                         id="message"
-                        value={message.message}
+                        value={this.state.message}
                     />
                 </div>
                 <button
@@ -62,13 +60,15 @@ export default class MessageList extends Component {
 
         const editedMessage = {
 
-            id: this.state.messageToEdit.id,
+            userId: parseInt(this.state.activeUser),
             message: this.state.message,
-            timestamp: this.state.messageToEdit.timestamp
+            timestamp: this.state.messageToEdit.timestamp,
+            id: this.state.messageToEdit.id
         }
-        //call "POST" function to add message to database and refresh
+        console.log("edited Message" ,editedMessage)
+        //call "PUT" function to edit message in the database and refresh
         this.props.editMessage(editedMessage)
-        this.props.history.push("/messages")
+        // this.props.history.push("/messages")
 
 
     }
@@ -106,9 +106,16 @@ export default class MessageList extends Component {
                 <h2> Messages</h2>
                 <div className="message-container">
                     {this.props.messages.map((message) =>
+
                         <React.Fragment>
-                            <section>{this.renderSingleMessage(message)}</section>
-                            <form>{this.renderEditForm(message)}</form>
+                            <a href="">
+                                {/* check to see if the message is from the current user and set styling accordingly */}
+                                <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
+                                    {message.user.username}</span></a>
+                            {(this.state.messageToEdit.id === message.id ?
+                                <form>{this.renderEditForm(message)}</form> :
+                                <span>{this.renderSingleMessage(message)}</span>)}
+
                         </React.Fragment>
                     )}
                 </div>

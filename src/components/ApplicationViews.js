@@ -2,30 +2,21 @@ import { Route, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 // Comment or uncomment your import as needed
 import UserAPIManager from "../modules/UserManager"
-<<<<<<< HEAD
-// import EventAPIManager from "../modules/EventManager"
 import NewsAPIManager from "../modules/NewsManager"
 import MessageAPIManager from "../modules/MessageManager"
-=======
 import EventAPIManager from "../modules/EventManager"
-// import MessageAPIManager from "../modules/MessageManager"
->>>>>>> master
 // import FriendAPIManager from "../modules/FriendManager"
-
 import EventList from './event/EventList'
 import EventForm from './event/EventForm'
 import EventEditForm from './event/EventEditForm'
-import NewsAPIManager from "../modules/NewsManager"
-
 import TaskAPIManager from "../modules/TaskManager"
 import TaskList from "./tasks/TaskList"
 import TaskEditForm from "./tasks/TaskEditForm"
 import TaskForm from "./tasks/TaskForm"
-
 import NewsList from "./news/NewsList"
-import MessageList from "./messages/MessageList"
 import NewsForm from "./news/NewsForm"
 import NewsEditForm from "./news/NewsEditForm"
+import MessageList from "./messages/MessageList"
 
 
 
@@ -81,11 +72,6 @@ export default class ApplicationViews extends Component {
   }
 
 
-
-
-
-
-
   // activeUser=sessionStorage.getItem(activeUser)
 
   componentDidMount() {
@@ -112,8 +98,6 @@ export default class ApplicationViews extends Component {
       .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
       .then(tasks => newState.tasks = tasks)
       .then(() => this.setState(newState))
-
-
   }
 
 
@@ -154,15 +138,15 @@ export default class ApplicationViews extends Component {
       )
   }
 
-  // editMessage = (editedMessage) =>{
-  //   return MessageAPIManager.addNewMessage(newMessage)
-  //   .then(MessageAPIManager.getAllMessages)
-  //   .then(messages => this.setState({
-  //     messages: messages
-  //   })
-  //   )
+  editMessage = (editedMessage) =>{
+    return MessageAPIManager.editMessage(editedMessage)
+    .then(MessageAPIManager.getAllMessages)
+    .then(messages => this.setState({
+      messages: messages
+    })
+    )
 
-  // }
+  }
 
 
   addTask = taskObject => {
@@ -250,7 +234,8 @@ export default class ApplicationViews extends Component {
               activeUser={this.state.activeUser}
               messages={this.state.messages}
               deleteMessage={this.deleteMessage}
-              addNewMessage={this.addNewMessage} />
+              addNewMessage={this.addNewMessage}
+              editMessage={this.editMessage}/>
           }}
         />
 
