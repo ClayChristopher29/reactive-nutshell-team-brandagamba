@@ -6,13 +6,19 @@ import Moment from 'react-moment';
 export default class EventList extends Component {
 
 
-
+//   this.state.data.sort((a, b) => a.item.timeM > b.item.timeM).map(
+//     (item, i) => <div key={i}> {item.matchID} {item.timeM} {item.description}</div>
+// )
 
 
     render() {
         return(
-                <section className="firstClass">
-            {this.props.events.map(event=>
+          <React.Fragment>
+            <h1>Events</h1>
+            <button type="button" className="btn btn-dark" onClick={() => {
+                                this.props.history.push("/events/new")}}>Add Event</button>
+               <section className="firstClass">
+            {this.props.events.sort((a, b) => a.date > b.date ? 1 : -1).map(event=>
                 <div className="carddb" key={event.id}>
                 <div className="card-body">
                   <p className="card-title">{event.name}</p>
@@ -29,10 +35,11 @@ export default class EventList extends Component {
                 </div>
               </div>
                 )}
-                <button type="button" className="btn btn-dark" onClick={() => {
-                                this.props.history.push("/events/new")}}>Add Event</button>
+
 
                 </section>
+            </React.Fragment>
+
         )
     }
 }
