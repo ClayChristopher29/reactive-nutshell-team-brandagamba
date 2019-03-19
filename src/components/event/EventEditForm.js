@@ -22,6 +22,7 @@ export default class EventForm extends Component {
   updateCurrentEvent = evt => {
     evt.preventDefault();
       const event = {
+        id: this.props.match.params.eventId,
         name: this.state.name,
         date: this.state.date,
         location: this.state.location,
