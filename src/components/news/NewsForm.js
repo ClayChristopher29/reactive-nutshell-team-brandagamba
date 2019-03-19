@@ -32,7 +32,7 @@ export default class NewsForm extends Component {
         // build date and time component based on current date and time
         const today = new Date();
         const date = (today.getMonth() + 1) + '-' + today.getDate()+ '-' + today.getFullYear() ;
-        const time = today.getHours() + ":" + today.getMinutes();
+        const time = today.getHours() + ":" + (today.getMinutes<10?0:"") + today.getMinutes();
         const dateTime = date + ' ' + time;
 
         console.log(dateTime)

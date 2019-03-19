@@ -21,7 +21,7 @@ export default {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(newArticle)
-      }).then(data => data.json())
+      })
     },
     editArticle(editedArticle) {
       return fetch(`http://localhost:5002/news/${editedArticle.id}`, {
@@ -30,7 +30,7 @@ export default {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(editedArticle)
-      }).then(data => data.json());
+      })
     }
 
 

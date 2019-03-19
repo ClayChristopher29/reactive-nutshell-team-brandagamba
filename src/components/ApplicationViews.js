@@ -58,8 +58,7 @@ export default class ApplicationViews extends Component {
 
   deleteArticle = (id) => {
     return NewsAPIManager.deleteArticle(id)
-      .then(() => fetch(`http://localhost:5002/news/?userId=${this.state.activeUser}`))
-      .then(e => e.json())
+      .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
       .then(news => this.setState({
         news: news
 
@@ -68,8 +67,7 @@ export default class ApplicationViews extends Component {
   }
   addNewArticle = (newArticle) => {
     return NewsAPIManager.addNewArticle(newArticle)
-      .then(() => fetch(`http://localhost:5002/news/?userId=${this.state.activeUser}`))
-      .then(e => e.json())
+      .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
       .then(news => this.setState({
         news: news
 
@@ -79,19 +77,12 @@ export default class ApplicationViews extends Component {
 
   editArticle = (editedArticle) => {
     return NewsAPIManager.editArticle(editedArticle)
-      .then(() => fetch(`http://localhost:5002/news/?userId=${this.state.activeUser}`))
-      .then(e => e.json())
+      .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
       .then(news => this.setState({
         news: news
-
       })
       )
   }
-
-
-
-
-
 
 
   render() {

@@ -4,7 +4,7 @@ import React, { Component } from "react"
 export default class NewsList extends Component {
 
   render() {
-    console.log(this.props.news)
+
 
     return (
       <React.Fragment>

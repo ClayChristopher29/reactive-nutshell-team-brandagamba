@@ -27,7 +27,7 @@ export default class NewsEditForm extends Component {
           Local method for validation, creating news object, and
           invoking the function reference passed from parent component
        */
-    editArticle = evt => {
+    editThisArticle = evt => {
         evt.preventDefault();
 
         const article = {
@@ -42,9 +42,10 @@ export default class NewsEditForm extends Component {
 
         };
 
-        // Create the animal and redirect user to news list
-        NewsAPIManager.editArticle(article)
-        this.props.history.push("/news")
+        // edit the article and redirect user to news list
+        this.props.editArticle(article)
+        this.props.history.push("/")
+
     }
     componentDidMount() {
         NewsAPIManager.getSingleArticle(this.props.match.params.newsId)
@@ -103,7 +104,7 @@ export default class NewsEditForm extends Component {
 
                     <button
                         type="submit"
-                        onClick={this.editArticle}
+                        onClick={this.editThisArticle}
                         className="btn btn-success"
                     >
                         Submit
