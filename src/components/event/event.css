@@ -1,0 +1,21 @@
+.form-group {
+    margin: 0em 5em 0em 5em;
+
+}
+.btn{
+    margin-left: 5em;
+}
+
+.btn-dark {
+    margin-left: 3vh;
+}
+.btn-success {
+    margin: 5em;
+}
+
+.carddb:first-child {
+    font-weight: bold;
+    font-size: 1.4em;
+    background-color: aquamarine;
+}
+
