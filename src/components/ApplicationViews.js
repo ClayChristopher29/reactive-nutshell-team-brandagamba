@@ -43,8 +43,8 @@ deleteEvent = (id) => {
   )}
 
 
-updateEvent = (id) => {
-  EventAPIManager.updateEventAndList(id)
+updateEvent = (eventObj) => {
+  EventAPIManager.updateEventAndList(eventObj)
   .then(events => this.setState({
     events: events
   }))

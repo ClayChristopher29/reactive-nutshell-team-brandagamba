@@ -19,7 +19,7 @@ export default class EventForm extends Component {
     this.setState(stateToChange);
   };
 
-  updateEvent = evt => {
+  updateCurrentEvent = evt => {
     evt.preventDefault();
       const event = {
         name: this.state.name,
@@ -62,7 +62,7 @@ export default class EventForm extends Component {
     <input type="text" className="form-control" id="location" value={this.state.location} onChange={this.handleFieldChange}/>
     </div>
     <button type="button" className="btn btn-success"
-    onClick={this.updateEvent}>Submit</button>
+    onClick={this.updateCurrentEvent}>Submit</button>
     </form>
         )
     }
