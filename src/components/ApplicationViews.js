@@ -92,8 +92,8 @@ export default class ApplicationViews extends Component {
       )
   }
   addNewMessage = (newMessage) => {
-    return NewsAPIManager.addNewArticle(newMessage)
-      .then(NewsAPIManager.getAllmessages)
+    return MessageAPIManager.addNewMessage(newMessage)
+      .then(MessageAPIManager.getAllMessages)
       .then(messages => this.setState({
         messages: messages
       })
@@ -175,7 +175,8 @@ export default class ApplicationViews extends Component {
             return <MessageList {...props}
             activeUser={this.state.activeUser}
             messages={this.state.messages}
-            deleteMessage={this.deleteMessage} />
+            deleteMessage={this.deleteMessage}
+            addNewMessage={this.addNewMessage} />
           }}
         />
 

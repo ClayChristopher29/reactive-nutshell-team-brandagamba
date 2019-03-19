@@ -23,16 +23,37 @@ export default class MessageList extends Component {
             </React.Fragment>
         )
     }
-    handleClick = (evt) => {
+    handleEdit = (message) => {
+        console.log("inside edit")
+        return <form>
+            <div className="form-group">
+                <label htmlFor="message">Link</label>
+                <input
+                    type="text"
+                    required
+                    className="form-control"
+                    onChange={this.handleFieldChange}
+                    id="message"
+                    value={message}
+                />
+            </div>
+            <button
+                type="submit"
+                onClick={this.editThisMessage}
+                className="btn btn-success"
+            >Submit</button>
+        </form>
 
 
     }
-    handleSubmit = (evt) => {
-        window.alert("the button works!")
+
+    editThisMessage=()=>{
 
 
 
     }
+
+
 
     handleFieldChange = evt => {
         const stateToChange = {};
@@ -54,12 +75,9 @@ export default class MessageList extends Component {
             timestamp: dateTime
         }
 
-        /// perform put request add it to props in application views
-
-
-
-
-
+        //call "POST" function to add message to database and refresh
+        this.props.addNewMessage(messageToPost)
+        this.props.history.push("/messages")
     }
 
     render() {
@@ -68,13 +86,16 @@ export default class MessageList extends Component {
                 <h2> Messages</h2>
                 <div className="message-container">
                     {this.props.messages.map((message) =>
-                        <div><a href="">
+                        <div id={message.id}><a href="">
                             {/* check to see if the message is from the current user and set styling accordingly */}
                             <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
                                 {message.user.username}</span></a>
                             <span>- {message.message}</span>
                             {/* check to see if the message is from the current user and add an edit button */}
-                            {(message.userId === parseInt(this.state.activeUser) ? <button className="btn-sm btn-primary">edit</button> : "")}
+                            {(message.userId === parseInt(this.state.activeUser) ?
+                                <button className="btn-sm btn-primary"
+                                    onClick={()=>this.handleEdit(message[message])}>edit</button>
+                                : "")}
 
                             <p></p>
                         </div>
@@ -92,7 +113,7 @@ export default class MessageList extends Component {
                     <span className="MessageButton">
                         <button type="button"
                             className="btn btn-success"
-                            onClick={this.handleSubmit}>submit
+                            onClick={this.constructNewMessage}>submit
                     </button>
                     </span>
                 </div>
