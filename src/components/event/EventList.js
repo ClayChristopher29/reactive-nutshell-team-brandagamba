@@ -22,7 +22,7 @@ export default class EventList extends Component {
 
     render() {
       let filteredEvents = this.props.events.filter((event) =>{
-      return event.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 || event.date.indexOf(this.state.search) !== -1 })
+      return event.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 || event.date.indexOf(this.state.search) !== -1 || event.location.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1})
         return(
           <React.Fragment>
             <h1>Events</h1>
