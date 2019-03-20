@@ -135,11 +135,12 @@ export default class MessageList extends Component {
         this.props.history.push("/messages")
     }
     // this allows the user to add a friend based on clicking on their username
-    addFriend = (userId) => {
-        // evt.preventDefault()
-        // this.setState({friendToAdd: target})
+    addFriend = (evt, userId) => {
+        evt.preventDefault()
+        this.setState({friendToAdd: userId})
+        console.log("this" ,userId)
 
-        window.alert("you clicked on",userId )
+        // window.alert("you clicked on",userId )
 
 
     }
@@ -153,7 +154,7 @@ export default class MessageList extends Component {
 
 
                         <React.Fragment>
-                            <a href="" key={message.id} onClick={() => this.addFriend(message.userId)}>
+                            <a href="#" key={message.id} onClick={(evt) => this.addFriend(evt, message.userId)}>
                                 {/* check to see if the message is from the current user and set styling accordingly */}
                                 <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
                                     {message.user.username}</span></a>
