@@ -4,10 +4,21 @@ import ApplicationViews from "./ApplicationViews";
 import "./Nutshell.css";
 
 class Nutshell extends Component {
+  state = {
+   isLoggedIn: true
+  }
+
+  handleLogout = evt => {
+    evt.preventDefault()
+    sessionStorage.removeItem("activeUser")
+    this.setState({isLoggedIn: false})
+
+}
+
   render() {
     return (
       <React.Fragment>
-        <NavBar />
+        <NavBar handleLogout={this.handleLogout}/>
         <ApplicationViews />
       </React.Fragment>
     );
