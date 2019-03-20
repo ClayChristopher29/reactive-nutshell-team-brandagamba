@@ -331,7 +331,7 @@ export default class ApplicationViews extends Component {
         <Route path="/register" render={props => {
           return (
             <RegisterForm {...props} users={this.state.users} checkUserEmail={this.checkUserEmail} checkUserName={this.checkUserName}
-            addUser={this.addUser}/>
+            addUser={this.addUser} mountUponLogin={this.mountUponLogin}/>
           )
         }} />
 

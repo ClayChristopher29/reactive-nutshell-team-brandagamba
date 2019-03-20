@@ -34,6 +34,7 @@ export default class RegisterForm extends Component {
                             console.log(newUser)
                         this.props.addUser(newUser).then(newUser => {
                             sessionStorage.setItem("activeUser", newUser.id)
+                            this.props.mountUponLogin()
                             this.props.history.push("/")
                         })
                         } else {
