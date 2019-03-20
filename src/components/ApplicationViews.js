@@ -2,26 +2,24 @@ import { Route, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 // Comment or uncomment your import as needed
 import UserAPIManager from "../modules/UserManager"
+import NewsAPIManager from "../modules/NewsManager"
+import MessageAPIManager from "../modules/MessageManager"
 import EventAPIManager from "../modules/EventManager"
-// import MessageAPIManager from "../modules/MessageManager"
 // import FriendAPIManager from "../modules/FriendManager"
-
 import EventList from './event/EventList'
 import EventForm from './event/EventForm'
 import EventEditForm from './event/EventEditForm'
-import NewsAPIManager from "../modules/NewsManager"
-
 import TaskAPIManager from "../modules/TaskManager"
 import TaskList from "./tasks/TaskList"
 import TaskEditForm from "./tasks/TaskEditForm"
 import TaskForm from "./tasks/TaskForm"
-
 import NewsList from "./news/NewsList"
 import NewsForm from "./news/NewsForm"
 import NewsEditForm from "./news/NewsEditForm"
 import AuthenticationManager from "../modules/AuthenticationManager"
 import RegisterForm from "./authentication/RegisterForm"
 import LoginForm from "./authentication/LoginForm"
+import MessageList from "./messages/MessageList"
 
 
 
@@ -48,37 +46,33 @@ export default class ApplicationViews extends Component {
   // isAuthenticated = () => sessionStorage.getItem("credentials") !== null
 
 
-// ********** Event Functions ***********
-addEvent = (event) => {
-  EventAPIManager.addEventAndList(event)
-  .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
-  .then(events => this.setState({
-    events: events
+  // ********** Event Functions ***********
+  addEvent = (event) => {
+    EventAPIManager.addEventAndList(event)
+      .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
+      .then(events => this.setState({
+        events: events
+      }
+      ))
   }
-))
-}
 
-deleteEvent = (id) => {
-  EventAPIManager.deleteEventAndList(id)
-  .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
-  .then(events => this.setState({
-    events: events
-  })
-  )}
-
-
-updateEvent = (eventObj) => {
-  EventAPIManager.updateEventAndList(eventObj)
-  .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
-  .then(events => this.setState({
-    events: events
-  }))
-}
+  deleteEvent = (id) => {
+    EventAPIManager.deleteEventAndList(id)
+      .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
+      .then(events => this.setState({
+        events: events
+      })
+      )
+  }
 
 
-
-
-
+  updateEvent = (eventObj) => {
+    EventAPIManager.updateEventAndList(eventObj)
+      .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
+      .then(events => this.setState({
+        events: events
+      }))
+  }
 
 
   // activeUser=sessionStorage.getItem(activeUser)
@@ -93,36 +87,20 @@ updateEvent = (eventObj) => {
     // Get all info from the API and set state
     // comment or uncomment your module as needed
 
-
-
-           UserAPIManager.getAllUsers()
-                .then(users => newState.users = users)
-                .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
-                .then(events => newState.events = events)
-                .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
-                .then(news => newState.news = news)
-    //             .then(MessageAPIManager.getAllMessages)
-    //             .then(messages => newState.messages = messages)
-    //             .then(FriendAPIManager.getAllFriends)
-    //             .then(friends => newState.friends = friends)
-                .then(() => this.setState(newState))
-
-
     UserAPIManager.getAllUsers()
-                .then(users => newState.users = users)
-                .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
-                .then(events => newState.events = events)
-                .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
-                .then(news => newState.news = news)
-      //              .then(MessageAPIManager.getAllMessages)
-      //             .then(messages => newState.messages = messages)
+      .then(users => newState.users = users)
+      .then(users => newState.users = users)
+      .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
+      .then(events => newState.events = events)
+      .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
+      .then(news => newState.news = news)
+      .then(MessageAPIManager.getAllMessages)
+      .then(messages => newState.messages = messages)
       //             .then(FriendAPIManager.getAllFriends)
       //             .then(friends => newState.friends = friends)
-                .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
-                .then(tasks => newState.tasks = tasks)
-                .then(() => this.setState(newState))
-
-
+      .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
+      .then(tasks => newState.tasks = tasks)
+      .then(() => this.setState(newState))
   }
 
   isAuthenticated = () => {
@@ -157,19 +135,37 @@ updateEvent = (eventObj) => {
       })
       )
   }
+  addNewMessage = (newMessage) => {
+    return MessageAPIManager.addNewMessage(newMessage)
+      .then(MessageAPIManager.getAllMessages)
+      .then(messages => this.setState({
+        messages: messages
+      })
+      )
+  }
+
+  editMessage = (editedMessage) =>{
+    return MessageAPIManager.editMessage(editedMessage)
+    .then(MessageAPIManager.getAllMessages)
+    .then(messages => this.setState({
+      messages: messages
+    })
+    )
+
+  }
 
 
   addTask = taskObject => {
     return TaskAPIManager.addNewTask(taskObject)
-    .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
-    .then(tasks => this.setState({
-      tasks: tasks
-    }))
+      .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
+      .then(tasks => this.setState({
+        tasks: tasks
+      }))
   }
 
 
-  updateTask = editedTaskObject =>  {
-      return TaskAPIManager.editTask(editedTaskObject)
+  updateTask = editedTaskObject => {
+    return TaskAPIManager.editTask(editedTaskObject)
       .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
       .then(tasks => this.setState({
         tasks: tasks
@@ -178,10 +174,10 @@ updateEvent = (eventObj) => {
 
   completeTask = (taskObject, taskId) => {
     return TaskAPIManager.completeTask(taskObject, taskId)
-    .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
-    .then(tasks => this.setState({
-      tasks: tasks
-    }))
+      .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
+      .then(tasks => this.setState({
+        tasks: tasks
+      }))
   }
 
   checkUserEmail = (email) => {
@@ -282,10 +278,17 @@ updateEvent = (eventObj) => {
           path="/messages" render={props => {
             if(this.isAuthenticated()){
             return null
-            // Remove null and return the component which will show the messages
+            return <MessageList {...props}
+              activeUser={this.state.activeUser}
+              messages={this.state.messages}
+              deleteMessage={this.deleteMessage}
+              addNewMessage={this.addNewMessage}
+              editMessage={this.editMessage}/>
             } else {
               return <Redirect to="/login" />
             }
+
+
           }}
         />
 
@@ -330,7 +333,7 @@ updateEvent = (eventObj) => {
             <RegisterForm {...props} users={this.state.users} checkUserEmail={this.checkUserEmail} checkUserName={this.checkUserName}
             addUser={this.addUser}/>
           )
-        }}/>
+        }} />
 
         <Route exact path="/login" render={props => {
           return (
