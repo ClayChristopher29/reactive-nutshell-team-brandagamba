@@ -20,7 +20,8 @@ import NewsList from "./news/NewsList"
 import NewsForm from "./news/NewsForm"
 import NewsEditForm from "./news/NewsEditForm"
 import AuthenticationManager from "../modules/AuthenticationManager"
-import RegisterForm from "./register/RegisterForm"
+import RegisterForm from "./authentication/RegisterForm"
+import LoginForm from "./authentication/LoginForm"
 
 
 
@@ -124,6 +125,9 @@ updateEvent = (eventObj) => {
 
   }
 
+  isAuthenticated = () => {
+    return sessionStorage.getItem("activeUser") !== null
+  }
 
   deleteArticle = (id) => {
     return NewsAPIManager.deleteArticle(id)
@@ -181,15 +185,15 @@ updateEvent = (eventObj) => {
   }
 
   checkUserEmail = (email) => {
-    AuthenticationManager.checkForEmail(email)
+    return AuthenticationManager.checkForEmail(email)
   }
 
   checkUserName = (username) => {
-    AuthenticationManager.checkForUsername(username)
+    return AuthenticationManager.checkForUsername(username)
   }
 
   addUser = (userObject) => {
-    return AuthenticationManager
+    return AuthenticationManager.registerNewUser(userObject)
   }
 
   render() {
@@ -273,11 +277,18 @@ updateEvent = (eventObj) => {
           )
         }}/>
 
-        <Route exact path="/login" render={props => {
+        <Route path="/register" render={props => {
           return (
-            <RegisterForm {...props} users={this.state.users} checkUserEmail={this.state.checkUserEmail} checkUserName={this.state.checkUserName}/>
+            <RegisterForm {...props} users={this.state.users} checkUserEmail={this.checkUserEmail} checkUserName={this.checkUserName}
+            addUser={this.addUser}/>
           )
         }}/>
+
+        <Route exact path="/login" render={props => {
+          return (
+            <LoginForm {...props} checkUserName={this.checkUserName} checkUserEmail={this.checkUserEmail} users={this.state.users}/>
+          )
+        }} />
 
       </React.Fragment>
     );

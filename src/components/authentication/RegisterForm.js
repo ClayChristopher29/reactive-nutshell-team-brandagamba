@@ -1,10 +1,3 @@
-//Conditionally route in application views so you only see register until logged in
-//fetch call to username to check for existing username
-//fetch call to email to check for existing email
-//conditional statement (array.length = 0) to create an account
-//then post new user to database
-//sessionStorage.setItem("activeUser") using objectId just saved to database
-//create new user object
 
 import React, {Component} from "react"
 
@@ -30,28 +23,33 @@ export default class RegisterForm extends Component {
     createNewUser = evt => {
         evt.preventDefault()
         let errorMessage = ""
-        if(this.props.checkUserName(this.state.username).length === 0){
-            if(this.props.checkUserEmail(this.state.email).length === 0){
-                const newUser = {
-                    username: this.state.username,
-                    email: this.state.email
-                }
-                this.props.registerNewUser(newUser)
-                this.props.history.push("/")
-            } else {
-                errorMessage = "That email is already registered. Please register with a new email"
+        this.props.checkUserName(this.state.username).then(user => {
+                if(user.length === 0){
+                    this.props.checkUserEmail(this.state.email).then(user => {
+                        if(user.length ===0){
+                            const newUser = {
+                                username: this.state.username,
+                                email: this.state.email
+                            }
+                            console.log(newUser)
+                        this.props.addUser(newUser).then(newUser => {
+                            sessionStorage.setItem("activeUser", newUser.id)
+                            this.props.history.push("/")
+                        })
+                        } else {
+                            errorMessage = "That email is already registered. Please register with a new email!"
+                            this.setState({
+                                errorMessage: errorMessage
+                            })
+
+                    }})
+                } else {
+                errorMessage = "That username is already taken. Please enter a different username!"
                 this.setState({
                     errorMessage: errorMessage
                 })
             }
-
-        } else {
-            errorMessage = "That username is already taken. Please enter a different username!"
-            this.setState({
-                errorMessage: errorMessage
-            })
-        }
-
+        })
     }
 
 
@@ -67,12 +65,12 @@ export default class RegisterForm extends Component {
                 <input type="text" className="form-control" id="username" placeholder="Enter username" onChange={this.handleFieldChange}/>
             </div>
             <div className="form-group">
-                <label htmlFor="exampleInputPassword1">Password</label>
+                <label htmlFor="exampleInputPassword1">Email Address</label>
                 <input type="email" className="form-control" id="email" placeholder="Email Address" onChange={this.handleFieldChange}/>
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary" onClick={this.createNewUser}>Submit</button>
             </form>
-            <h4>{this.errorMessage}</h4>
+            <h4>{this.state.errorMessage}</h4>
             </React.Fragment>
 
         )
