@@ -99,7 +99,7 @@ export default class ApplicationViews extends Component {
   }
 
   componentDidMount() {
-
+    this.mountUponLogin()
   }
 
   isAuthenticated = () => {
