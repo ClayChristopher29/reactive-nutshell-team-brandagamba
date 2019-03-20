@@ -21,6 +21,8 @@ export default class EventList extends Component {
 
 
     render() {
+      let filteredEvents = this.props.events.filter((event) =>{
+      return event.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 || event.date.indexOf(this.state.search) !== -1 })
         return(
           <React.Fragment>
             <h1>Events</h1>
@@ -34,7 +36,7 @@ export default class EventList extends Component {
             <button type="button" className="btn btn-secondary" onClick={() => {
                                 this.props.history.push("/events/new")}}>Add Event</button>
                <section className="firstClass">
-            {this.props.events.sort((a, b) => a.date > b.date ? 1 : -1).map(event=>
+            {filteredEvents.sort((a, b) => a.date > b.date ? 1 : -1).map(event=>
                 <div className="carddb" key={event.id}>
                 <div className="card-body">
                   <p className="card-title">{event.name}</p>
