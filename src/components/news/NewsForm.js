@@ -29,20 +29,20 @@ export default class NewsForm extends Component {
     constructNewArticle = evt => {
         evt.preventDefault();
 
-        // build date and time component based on current date and time
-        const today = new Date();
-        const date = (today.getMonth() + 1) + '-' + today.getDate()+ '-' + today.getFullYear() ;
-        const time = (today.getHours()<10?"0":"") + today.getHours() + ":" + (today.getMinutes()<10?"0":"") + today.getMinutes();
-        const dateTime = date + ' ' + time;
+        // // build date and time component based on current date and time
+        // const today = new Date();
+        // const date = (today.getMonth() + 1) + '-' + today.getDate()+ '-' + today.getFullYear() ;
+        // const time = (today.getHours()<10?"0":"") + today.getHours() + ":" + (today.getMinutes()<10?"0":"") + today.getMinutes();
+        // const dateTime = date + ' ' + time;
 
-        console.log(dateTime)
+        // console.log(dateTime)
 
         const article = {
 
             title: this.state.title,
             synopsis: this.state.synopsis,
             url: this.state.url,
-            date: dateTime,
+            date: new Date(),
             //Make sure the user ID is saved to the database as an integer
             userId: parseInt(this.state.userId)
 

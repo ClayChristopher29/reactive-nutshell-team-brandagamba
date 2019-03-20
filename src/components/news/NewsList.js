@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import Moment from 'react-moment';
 
 
 export default class NewsList extends Component {
@@ -32,7 +33,7 @@ export default class NewsList extends Component {
                     <h4><u>{news.title}</u></h4>
                     <p>{news.synopsis}</p>
                     <a href={news.url}>...more details</a>{"\n"}
-                    <h6>{news.date}</h6>
+                    <h6><Moment format="MM/DD/YYYY h:mm a">{news.date}</Moment></h6>
                     <div className="button-div">
                       <button
                         className="btn btn-primary"
