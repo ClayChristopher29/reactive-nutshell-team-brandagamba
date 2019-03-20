@@ -12,7 +12,7 @@ export default class MessageList extends Component {
         message: "",
         messageToEdit: "",
         someElement: "",
-        friendToAdd:""
+        friendToAdd: ""
     }
 
     componentDidMount = () => {
@@ -36,7 +36,7 @@ export default class MessageList extends Component {
         // create refs that will allow you to select dom elements
         this.messageContainer = React.createRef();
         this.messageInput = React.createRef()
-        this.friendToAdd =React.createRef()
+        this.friendToAdd = React.createRef()
     }
 
 
@@ -100,13 +100,7 @@ export default class MessageList extends Component {
 
 
     }
-    addFriend = (message) => {
-        // this.setState({friendToAdd: target})
 
-        window.alert("you clicked on", message.userId)
-
-
-    }
 
     // this function handles the input fields and automatically sets the variable in state
     handleFieldChange = evt => {
@@ -123,6 +117,7 @@ export default class MessageList extends Component {
 
 
         // build date and time component based on current date and time
+        // this is not necessary, but I was just playing with time :)
         const today = new Date();
         const date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
         const time = (today.getHours() < 10 ? "0" : "") + today.getHours() + ":" + (today.getMinutes() < 10 ? "0" : "") + today.getMinutes();
@@ -139,6 +134,15 @@ export default class MessageList extends Component {
         this.props.addNewMessage(messageToPost)
         this.props.history.push("/messages")
     }
+    // this allows the user to add a friend based on clicking on their username
+    addFriend = (userId) => {
+        // evt.preventDefault()
+        // this.setState({friendToAdd: target})
+
+        window.alert("you clicked on",userId )
+
+
+    }
 
     render() {
         return <React.Fragment>
@@ -149,7 +153,7 @@ export default class MessageList extends Component {
 
 
                         <React.Fragment>
-                            <a href="" key={message.id} onClick={()=>this.addFriend()}>
+                            <a href="" key={message.id} onClick={() => this.addFriend(message.userId)}>
                                 {/* check to see if the message is from the current user and set styling accordingly */}
                                 <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
                                     {message.user.username}</span></a>
