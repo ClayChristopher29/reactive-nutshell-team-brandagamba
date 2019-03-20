@@ -9,12 +9,28 @@ export default class EventList extends Component {
 //   this.state.data.sort((a, b) => a.item.timeM > b.item.timeM).map(
 //     (item, i) => <div key={i}> {item.matchID} {item.timeM} {item.description}</div>
 // )
+  state = {
+    search: ""
+  };
+  handleFieldChange = evt => {
+    const stateToChange = {};
+    stateToChange[evt.target.id] = evt.target.value;
+    this.setState(stateToChange);
+  };
+
 
 
     render() {
         return(
           <React.Fragment>
             <h1>Events</h1>
+            <input type="text"
+             placeholder="Search"
+             className="search"
+             value={this.state.search}
+             id="search"
+              onChange={this.handleFieldChange}
+            />
             <button type="button" className="btn btn-secondary" onClick={() => {
                                 this.props.history.push("/events/new")}}>Add Event</button>
                <section className="firstClass">
