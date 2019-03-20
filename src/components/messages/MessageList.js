@@ -6,7 +6,7 @@ import './Messages.css'
 
 
 export default class MessageList extends Component {
-// define state
+    // define state
     state = {
         activeUser: this.props.activeUser,
         message: "",
@@ -34,8 +34,8 @@ export default class MessageList extends Component {
         super(props);
         // create refs that will allow you to select dom elements
         this.messageContainer = React.createRef();
-        this.messageInput=React.createRef()
-      }
+        this.messageInput = React.createRef()
+    }
 
 
     renderSingleMessage = (message) => {
@@ -80,11 +80,10 @@ export default class MessageList extends Component {
 
             </React.Fragment>)
 
-
     }
 
     editThisMessage = () => {
-// this function allows you to create an edited message and PUT it to the database
+        // this function allows you to create an edited message and PUT it to the database
         const editedMessage = {
 
             userId: parseInt(this.state.activeUser),
@@ -99,9 +98,14 @@ export default class MessageList extends Component {
 
 
     }
+    addFriend = (message) => {
+
+        window.alert("you clicked on", message)
 
 
-// this function handles the input fields and automatically sets the variable in state
+    }
+
+    // this function handles the input fields and automatically sets the variable in state
     handleFieldChange = evt => {
         const stateToChange = {};
         stateToChange[evt.target.id] = evt.target.value;
@@ -111,8 +115,8 @@ export default class MessageList extends Component {
     // this function is called by the submit button to create a new message to POST
     constructNewMessage = () => {
         // clear the message input field and reset to default
-        const inputNode =this.messageInput.current
-        inputNode.value=""
+        const inputNode = this.messageInput.current
+        inputNode.value = ""
 
 
         // build date and time component based on current date and time
@@ -140,11 +144,13 @@ export default class MessageList extends Component {
                 <div className="message-container" ref={this.messageContainer}>
                     {this.props.messages.map((message) =>
 
+
                         <React.Fragment>
-                            <a href="">
+                            <a href="" onClick={()=>this.addFriend(message.user.username)}>
                                 {/* check to see if the message is from the current user and set styling accordingly */}
                                 <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
                                     {message.user.username}</span></a>
+                            {/* Check to see if the edit button has been clicked.  If so, display the form for that msg */}
                             {(this.state.messageToEdit.id === message.id ?
                                 <form>{this.renderEditForm(message)}</form> :
                                 <span>{this.renderSingleMessage(message)}</span>)}
