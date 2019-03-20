@@ -23,9 +23,26 @@
     color: red;
 }
 
-.btn-sm{
+.msg-edit-sm, .msg-submit-sm{
 padding:0 5px 0 5px;
 margin-left: 10px;
 box-shadow:0 0;
 
 }
+
+.message-input{
+
+    width: 300px;
+}
+
+.messageField{
+
+    display: flex;
+    flex-direction: row;
+}
+
+.msg-submit{
+margin-left: 10px;
+
+}
+

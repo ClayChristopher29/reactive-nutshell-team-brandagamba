@@ -3,16 +3,43 @@ import './Messages.css'
 
 
 
-export default class MessageList extends Component {
 
+
+export default class MessageList extends Component {
+// define state
     state = {
         activeUser: this.props.activeUser,
         message: "",
-        messageToEdit: ""
+        messageToEdit: "",
+        someElement: ""
     }
+
+    componentDidMount = () => {
+        // Get a reference to the div you want to auto-scroll.
+        // const someElement = document.querySelector('.message-container');
+        const someElement = this.messageContainer.current
+        // Create an observer and pass it a callback.
+        const observer = new MutationObserver(() => this.scrollToBottom(someElement));
+        // Tell it to look for new children that will change the height.
+        const config = { childList: true };
+        observer.observe(someElement, config);
+
+
+    }
+    scrollToBottom = (someElement) => {
+        someElement.scrollTop = someElement.scrollHeight;
+    }
+
+    constructor(props) {
+        super(props);
+        // create refs that will allow you to select dom elements
+        this.messageContainer = React.createRef();
+        this.messageInput=React.createRef()
+      }
 
 
     renderSingleMessage = (message) => {
+        // this react fragement will allow you to render each message individually
         return (
             <React.Fragment>
 
@@ -20,8 +47,8 @@ export default class MessageList extends Component {
                 <span>- {message.message}</span>
                 {/* check to see if the message is from the current user and add an edit button */}
                 {(message.userId === parseInt(this.state.activeUser) ?
-                    <button className="btn-sm btn-primary"
-                        onClick={() => this.setState({ messageToEdit: message, message:message.message })}>edit</button>
+                    <button className="btn-sm msg-edit-sm btn-primary"
+                        onClick={() => this.setState({ messageToEdit: message, message: message.message })}>edit</button>
                     : "")}
 
                 <p></p>
@@ -30,8 +57,8 @@ export default class MessageList extends Component {
             </React.Fragment>
         )
     }
-    renderEditForm = (message) => {
-
+    renderEditForm = () => {
+        // this react fragment will allow you to render an edit form in the messages field
         console.log("inside edit")
         return (
             <React.Fragment>
@@ -48,7 +75,7 @@ export default class MessageList extends Component {
                 <button
                     type="submit"
                     onClick={this.editThisMessage}
-                    className="btn-sm btn-success"
+                    className="btn-sm msg-submit-sm btn-success"
                 >Submit</button>
 
             </React.Fragment>)
@@ -57,7 +84,7 @@ export default class MessageList extends Component {
     }
 
     editThisMessage = () => {
-
+// this function allows you to create an edited message and PUT it to the database
         const editedMessage = {
 
             userId: parseInt(this.state.activeUser),
@@ -65,7 +92,7 @@ export default class MessageList extends Component {
             timestamp: this.state.messageToEdit.timestamp,
             id: this.state.messageToEdit.id
         }
-        console.log("edited Message" ,editedMessage)
+        console.log("edited Message", editedMessage)
         //call "PUT" function to edit message in the database and refresh
         this.props.editMessage(editedMessage)
         // this.props.history.push("/messages")
@@ -74,20 +101,26 @@ export default class MessageList extends Component {
     }
 
 
-
+// this function handles the input fields and automatically sets the variable in state
     handleFieldChange = evt => {
         const stateToChange = {};
         stateToChange[evt.target.id] = evt.target.value;
         this.setState(stateToChange);
     };
 
+    // this function is called by the submit button to create a new message to POST
     constructNewMessage = () => {
+        // clear the message input field and reset to default
+        const inputNode =this.messageInput.current
+        inputNode.value=""
+
 
         // build date and time component based on current date and time
         const today = new Date();
         const date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
         const time = (today.getHours() < 10 ? "0" : "") + today.getHours() + ":" + (today.getMinutes() < 10 ? "0" : "") + today.getMinutes();
         const dateTime = date + ' ' + time;
+
 
         const messageToPost = {
             userId: parseInt(this.state.activeUser),
@@ -104,7 +137,7 @@ export default class MessageList extends Component {
         return <React.Fragment>
             <section className="messages-section">
                 <h2> Messages</h2>
-                <div className="message-container">
+                <div className="message-container" ref={this.messageContainer}>
                     {this.props.messages.map((message) =>
 
                         <React.Fragment>
@@ -121,19 +154,22 @@ export default class MessageList extends Component {
                 </div>
 
                 <div className="messageField">
-                    <span className="message-input">
-                        <input
+                    <div className="message-input">
+                        <textarea
+                            className="message-input"
+                            ref={this.messageInput}
+                            type="textarea"
                             id="message"
                             placeholder="enter message"
                             onChange={this.handleFieldChange}
-                        ></input></span>
+                        ></textarea></div>
 
-                    <span className="MessageButton">
+                    <div className="MessageButton">
                         <button type="button"
-                            className="btn btn-success"
+                            className="btn msg-submit btn-success"
                             onClick={this.constructNewMessage}>submit
                     </button>
-                    </span>
+                    </div>
                 </div>
 
             </section>
