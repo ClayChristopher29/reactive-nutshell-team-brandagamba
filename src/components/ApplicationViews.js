@@ -276,8 +276,9 @@ export default class ApplicationViews extends Component {
           path="/friends" render={props => {
             if(this.isAuthenticated()){
                return <FriendList {...props}
-               friends={this.state.friends}/>
-            // Remove null and return the component which will show list of friends
+               friends={this.state.friends}
+               activeUser={this.state.activeUser}
+               users={this.state.users}/>
             } else {
               return <Redirect to="/login" />
             }
