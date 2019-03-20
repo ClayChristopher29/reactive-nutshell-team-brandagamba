@@ -9,5 +9,5 @@ import Moment from 'react-moment';
 ReactDOM.render(
   <Router>
       <Nutshell />
-  </Router>
+        </Router>
   , document.getElementById('root'))
