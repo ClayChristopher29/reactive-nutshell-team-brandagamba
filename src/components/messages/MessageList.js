@@ -11,7 +11,8 @@ export default class MessageList extends Component {
         activeUser: this.props.activeUser,
         message: "",
         messageToEdit: "",
-        someElement: ""
+        someElement: "",
+        friendToAdd:""
     }
 
     componentDidMount = () => {
@@ -35,6 +36,7 @@ export default class MessageList extends Component {
         // create refs that will allow you to select dom elements
         this.messageContainer = React.createRef();
         this.messageInput = React.createRef()
+        this.friendToAdd =React.createRef()
     }
 
 
@@ -99,8 +101,9 @@ export default class MessageList extends Component {
 
     }
     addFriend = (message) => {
+        // this.setState({friendToAdd: target})
 
-        window.alert("you clicked on", message)
+        window.alert("you clicked on", message.userId)
 
 
     }
@@ -146,7 +149,7 @@ export default class MessageList extends Component {
 
 
                         <React.Fragment>
-                            <a href="" onClick={()=>this.addFriend(message.user.username)}>
+                            <a href="" key={message.id} onClick={()=>this.addFriend()}>
                                 {/* check to see if the message is from the current user and set styling accordingly */}
                                 <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
                                     {message.user.username}</span></a>

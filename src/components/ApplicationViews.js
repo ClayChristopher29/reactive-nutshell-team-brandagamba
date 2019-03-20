@@ -190,6 +190,7 @@ export default class ApplicationViews extends Component {
             return <NewsForm {...props}
               news={this.state.news}
               addNewArticle={this.addNewArticle}
+              activeUser={this.state.activeUser}
             />
 
           }} />
@@ -198,6 +199,7 @@ export default class ApplicationViews extends Component {
             return <NewsEditForm {...props}
               news={this.state.news}
               editArticle={this.editArticle}
+              activeUser={this.state.activeUser}
             />
 
           }} />
