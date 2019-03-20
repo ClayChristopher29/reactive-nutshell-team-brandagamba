@@ -1,10 +1,12 @@
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
+import { Redirect, Link, Route } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 
 class NavBar extends Component {
+
     render() {
+
         return (
             <nav className="navbar navbar-light light-blue flex-md-nowrap p-0 shadow">
                 <ul className="nav nav-pills nav-fill">
@@ -19,6 +21,10 @@ class NavBar extends Component {
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/tasks">Tasks</Link>
+                    </li>
+                    <li className=
+                    "nav-item">
+                        <Link className="nav-link" to="/login" onClick={this.props.handleLogout}>Log Out</Link>
                     </li>
                     {/* <li className="nav-item">
                         <Link className="nav-link" to="/friends">Friends</Link>
