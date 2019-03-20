@@ -6,6 +6,7 @@ export default class TaskForm extends Component {
         task: "",
         dueDate: "",
         complete: false,
+        userId: sessionStorage.getItem("activeUser")
         }
 
         handleFieldChange = evt => {
@@ -19,7 +20,8 @@ export default class TaskForm extends Component {
             const task = {
                 task: this.state.task,
                 dueDate: this.state.dueDate,
-                complete: this.state.complete
+                complete: this.state.complete,
+                userId: this.state.userId
             }
             this.props.addTask(task)
             .then(() => this.props.history.push("/tasks"))

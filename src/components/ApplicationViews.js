@@ -25,7 +25,6 @@ import MessageList from "./messages/MessageList"
 
 export default class ApplicationViews extends Component {
 
-
   state = {
     users: [],
     events: [],
@@ -33,9 +32,8 @@ export default class ApplicationViews extends Component {
     messages: [],
     friends: [],
     tasks: [],
-    activeUser: "1"
-
-  }
+    activeUser: sessionStorage.getItem("activeUser")
+}
 
   // when login/register route is created, the onClick function will be handled here.
   // Set session storage, make api calls to get news/events/chat etc for this user
@@ -277,7 +275,6 @@ export default class ApplicationViews extends Component {
         <Route
           path="/messages" render={props => {
             if(this.isAuthenticated()){
-            return null
             return <MessageList {...props}
               activeUser={this.state.activeUser}
               messages={this.state.messages}

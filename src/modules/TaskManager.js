@@ -1,7 +1,7 @@
 
 const TaskManager = {
     getAllTasks(userId) {
-        return fetch(`http://localhost:5002/tasks/?users=${userId}&&complete=false`)
+        return fetch(`http://localhost:5002/tasks/?userId=${userId}&&complete=false`)
         .then(r => r.json())
     },
 

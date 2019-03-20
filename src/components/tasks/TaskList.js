@@ -48,6 +48,4 @@ export default class TaskList extends Component {
   }
 }
 
-//Renders Task List jsx from state - name of task onclick (set to inline?) pushes to /#/edit
-//Button for new task - pushes to /tasks/new
-//no delete button
+
