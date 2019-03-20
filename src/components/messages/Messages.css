@@ -15,12 +15,16 @@
 }
 
 .current{
-    color: green;
+    color: cornflowerblue;
+    margin-left: 20px;
+    font-weight: bold;
 }
 
 .other{
 
-    color: red;
+    color: green;
+    margin-left: 10px;
+    font-weight: bold;
 }
 
 .msg-edit-sm, .msg-submit-sm{
