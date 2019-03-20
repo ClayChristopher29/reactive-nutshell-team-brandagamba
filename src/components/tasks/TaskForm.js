@@ -6,7 +6,7 @@ export default class TaskForm extends Component {
         task: "",
         dueDate: "",
         complete: false,
-        userId: sessionStorage.getItem("activeUser")
+        userId: parseInt(sessionStorage.getItem("activeUser"))
         }
 
         handleFieldChange = evt => {

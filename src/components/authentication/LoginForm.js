@@ -28,6 +28,7 @@ export default class LoginForm extends Component {
                         console.log(user)
                         console.log(user[0].id)
                         this.props.history.push("/")
+                        this.props.mountUponLogin()
                     } else {
                         errorMessage = "This username and email combination does not exist. Please try again or register!"
                         this.setState({

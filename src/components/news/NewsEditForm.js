@@ -12,7 +12,7 @@ export default class NewsEditForm extends Component {
         url: "",
         date: "",
         //Must change this after login is working!!!
-        userId: 1,
+        userId: this.props.activeUser
 
     };
 

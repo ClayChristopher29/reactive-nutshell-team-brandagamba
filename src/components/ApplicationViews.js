@@ -74,12 +74,9 @@ export default class ApplicationViews extends Component {
 
 
   // activeUser=sessionStorage.getItem(activeUser)
-
-  componentDidMount() {
-
-
-
-
+  mountUponLogin = () => {
+    const activeUser = sessionStorage.getItem("activeUser")
+    this.setState({activeUser: activeUser})
     const newState = {}
 
     // Get all info from the API and set state
@@ -99,6 +96,10 @@ export default class ApplicationViews extends Component {
       .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
       .then(tasks => newState.tasks = tasks)
       .then(() => this.setState(newState))
+  }
+
+  componentDidMount() {
+
   }
 
   isAuthenticated = () => {
@@ -210,6 +211,7 @@ export default class ApplicationViews extends Component {
             return <NewsForm {...props}
               news={this.state.news}
               addNewArticle={this.addNewArticle}
+              activeUser={this.state.activeUser}
             />
             } else {
               return <Redirect to="/login" />
@@ -222,6 +224,7 @@ export default class ApplicationViews extends Component {
             return <NewsEditForm {...props}
               news={this.state.news}
               editArticle={this.editArticle}
+              activeUser={this.state.activeUser}
             />
             } else {
               return <Redirect to="/login" />
@@ -334,7 +337,7 @@ export default class ApplicationViews extends Component {
 
         <Route exact path="/login" render={props => {
           return (
-            <LoginForm {...props} checkUserName={this.checkUserName} checkUserEmail={this.checkUserEmail} users={this.state.users}/>
+            <LoginForm {...props} checkUserName={this.checkUserName} checkUserEmail={this.checkUserEmail} users={this.state.users} mountUponLogin={this.mountUponLogin}/>
           )
         }} />
 
