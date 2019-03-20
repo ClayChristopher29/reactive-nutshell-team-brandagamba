@@ -8,7 +8,7 @@ import './Messages.css'
 export default class MessageList extends Component {
     // define state
     state = {
-        activeUser: this.props.activeUser,
+        activeUser: parseInt(this.props.activeUser),
         message: "",
         messageToEdit: "",
         someElement: "",
@@ -137,8 +137,25 @@ export default class MessageList extends Component {
     // this allows the user to add a friend based on clicking on their username
     addFriend = (evt, userId) => {
         evt.preventDefault()
-        this.setState({friendToAdd: userId})
-        console.log("this" ,userId)
+
+        console.log("user", userId)
+
+
+            (userId !== this.state.activeUser ?
+                console.log("you can't add yourself!") :
+                console.log("this is not you"))
+
+
+        const friendObject =
+        {
+            userId: this.state.activeUser,
+            otherFriendId: userId
+
+        }
+        this.props.addNewFriend(friendObject)
+        this.props.history.push("/messages")
+
+
 
         // window.alert("you clicked on",userId )
 
@@ -154,7 +171,10 @@ export default class MessageList extends Component {
 
 
                         <React.Fragment>
-                            <a href="#" key={message.id} onClick={(evt) => this.addFriend(evt, message.userId)}>
+                            <a href="#" key={message.id} onClick={(evt) => {
+                                this.setState({ friendToAdd: message.userId })
+                                this.addFriend(evt, message.userId)
+                            }}>
                                 {/* check to see if the message is from the current user and set styling accordingly */}
                                 <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
                                     {message.user.username}</span></a>

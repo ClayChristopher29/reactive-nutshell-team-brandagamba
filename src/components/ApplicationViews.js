@@ -5,7 +5,7 @@ import UserAPIManager from "../modules/UserManager"
 import NewsAPIManager from "../modules/NewsManager"
 import MessageAPIManager from "../modules/MessageManager"
 import EventAPIManager from "../modules/EventManager"
-// import FriendAPIManager from "../modules/FriendManager"
+import FriendAPIManager from "../modules/FriendManager"
 import EventList from './event/EventList'
 import EventForm from './event/EventForm'
 import EventEditForm from './event/EventEditForm'
@@ -20,6 +20,7 @@ import AuthenticationManager from "../modules/AuthenticationManager"
 import RegisterForm from "./authentication/RegisterForm"
 import LoginForm from "./authentication/LoginForm"
 import MessageList from "./messages/MessageList"
+import FriendList from "./friends/FriendList"
 
 
 
@@ -33,7 +34,7 @@ export default class ApplicationViews extends Component {
     friends: [],
     tasks: [],
     activeUser: sessionStorage.getItem("activeUser")
-}
+  }
 
   // when login/register route is created, the onClick function will be handled here.
   // Set session storage, make api calls to get news/events/chat etc for this user
@@ -73,10 +74,10 @@ export default class ApplicationViews extends Component {
   }
 
 
-  // activeUser=sessionStorage.getItem(activeUser)
+
   mountUponLogin = () => {
     const activeUser = sessionStorage.getItem("activeUser")
-    this.setState({activeUser: activeUser})
+    this.setState({ activeUser: activeUser })
     const newState = {}
 
     // Get all info from the API and set state
@@ -91,8 +92,8 @@ export default class ApplicationViews extends Component {
       .then(news => newState.news = news)
       .then(MessageAPIManager.getAllMessages)
       .then(messages => newState.messages = messages)
-      //             .then(FriendAPIManager.getAllFriends)
-      //             .then(friends => newState.friends = friends)
+      .then(FriendAPIManager.getAllFriends)
+      .then(friends => newState.friends = friends)
       .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
       .then(tasks => newState.tasks = tasks)
       .then(() => this.setState(newState))
@@ -143,13 +144,13 @@ export default class ApplicationViews extends Component {
       )
   }
 
-  editMessage = (editedMessage) =>{
+  editMessage = (editedMessage) => {
     return MessageAPIManager.editMessage(editedMessage)
-    .then(MessageAPIManager.getAllMessages)
-    .then(messages => this.setState({
-      messages: messages
-    })
-    )
+      .then(MessageAPIManager.getAllMessages)
+      .then(messages => this.setState({
+        messages: messages
+      })
+      )
 
   }
 
@@ -191,28 +192,36 @@ export default class ApplicationViews extends Component {
     return AuthenticationManager.registerNewUser(userObject)
   }
 
+  addNewFriend = (friendObject) =>{
+    return FriendAPIManager.addNewFriend(friendObject)
+    .then(FriendAPIManager.getAllFriends())
+    .then(friends=>this.setState({
+      friends:friends
+    }))
+  }
+
   render() {
     return (
       <React.Fragment>
 
         <Route
           exact path="/" render={props => {
-            if(this.isAuthenticated()){
+            if (this.isAuthenticated()) {
               return <NewsList {...props}
-              news={this.state.news}
-              deleteArticle={this.deleteArticle} />
+                news={this.state.news}
+                deleteArticle={this.deleteArticle} />
             } else {
               return <Redirect to="/login" />
             }
           }} />
         <Route
           path="/news/new" render={props => {
-            if(this.isAuthenticated()){
-            return <NewsForm {...props}
-              news={this.state.news}
-              addNewArticle={this.addNewArticle}
-              activeUser={this.state.activeUser}
-            />
+            if (this.isAuthenticated()) {
+              return <NewsForm {...props}
+                news={this.state.news}
+                addNewArticle={this.addNewArticle}
+                activeUser={this.state.activeUser}
+              />
             } else {
               return <Redirect to="/login" />
             }
@@ -220,12 +229,12 @@ export default class ApplicationViews extends Component {
           }} />
         <Route
           path="/news/:newsId(\d+)/edit" render={props => {
-            if(this.isAuthenticated()){
-            return <NewsEditForm {...props}
-              news={this.state.news}
-              editArticle={this.editArticle}
-              activeUser={this.state.activeUser}
-            />
+            if (this.isAuthenticated()) {
+              return <NewsEditForm {...props}
+                news={this.state.news}
+                editArticle={this.editArticle}
+                activeUser={this.state.activeUser}
+              />
             } else {
               return <Redirect to="/login" />
             }
@@ -235,7 +244,7 @@ export default class ApplicationViews extends Component {
 
         <Route
           exact path="/events" render={props => {
-            if(this.isAuthenticated()) {
+            if (this.isAuthenticated()) {
               return <EventList {...props} events={this.state.events} deleteEvent={this.deleteEvent} />
             } else {
               return <Redirect to="/login" />
@@ -244,46 +253,48 @@ export default class ApplicationViews extends Component {
           }}
         />
         <Route
-           path="/events/new" render={props => {
-             if(this.isAuthenticated()){
-            return <EventForm  {...props} events={this.state.events} addEvent={this.addEvent}/>
-             } else {
-               return <Redirect to="/login" />
-             }
+          path="/events/new" render={props => {
+            if (this.isAuthenticated()) {
+              return <EventForm  {...props} events={this.state.events} addEvent={this.addEvent} />
+            } else {
+              return <Redirect to="/login" />
+            }
           }}
         />
-         <Route
-           path="/events/:eventId(\d+)/edit" render={props => {
-             if(this.isAuthenticated()) {
-            return <EventEditForm  {...props} events={this.state.events} updateEvent={this.updateEvent}/>
-             } else {
-               return <Redirect to="/login" />
-             }
+        <Route
+          path="/events/:eventId(\d+)/edit" render={props => {
+            if (this.isAuthenticated()) {
+              return <EventEditForm  {...props} events={this.state.events} updateEvent={this.updateEvent} />
+            } else {
+              return <Redirect to="/login" />
+            }
           }}
         />
 
 
-        {/* <Route
+        <Route
           path="/friends" render={props => {
             if(this.isAuthenticated()){
-               return null
+               return <FriendList {...props}
+               friends={this.state.friends}/>
             // Remove null and return the component which will show list of friends
             } else {
               return <Redirect to="/login" />
             }
 
           }}
-        /> */}
+        />
 
         <Route
           path="/messages" render={props => {
-            if(this.isAuthenticated()){
-            return <MessageList {...props}
-              activeUser={this.state.activeUser}
-              messages={this.state.messages}
-              deleteMessage={this.deleteMessage}
-              addNewMessage={this.addNewMessage}
-              editMessage={this.editMessage}/>
+            if (this.isAuthenticated()) {
+              return <MessageList {...props}
+                activeUser={this.state.activeUser}
+                messages={this.state.messages}
+                deleteMessage={this.deleteMessage}
+                addNewMessage={this.addNewMessage}
+                editMessage={this.editMessage}
+                addNewFriend = {this.addNewFriend}/>
             } else {
               return <Redirect to="/login" />
             }
@@ -294,9 +305,9 @@ export default class ApplicationViews extends Component {
 
         <Route
           exact path="/tasks" render={props => {
-            if(this.isAuthenticated()){
+            if (this.isAuthenticated()) {
               return (
-                <TaskList {...props} tasks={this.state.tasks} completeTask={this.completeTask}/>
+                <TaskList {...props} tasks={this.state.tasks} completeTask={this.completeTask} />
               )
             } else {
               return <Redirect to="/login" />
@@ -307,9 +318,9 @@ export default class ApplicationViews extends Component {
         />
 
         <Route path="/tasks/:taskId(\d+)/edit" render={props => {
-          if(this.isAuthenticated()){
+          if (this.isAuthenticated()) {
             return (
-              <TaskEditForm {...props} tasks={this.state.tasks} updateTask={this.updateTask}/>
+              <TaskEditForm {...props} tasks={this.state.tasks} updateTask={this.updateTask} />
             )
           } else {
             return <Redirect to="/login" />
@@ -317,27 +328,27 @@ export default class ApplicationViews extends Component {
 
         }} />
 
-        <Route exact path="/tasks/new" render={props=> {
-          if(this.isAuthenticated()) {
+        <Route exact path="/tasks/new" render={props => {
+          if (this.isAuthenticated()) {
             return (
-              <TaskForm {...props} tasks={this.state.tasks} addTask={this.addTask}/>
+              <TaskForm {...props} tasks={this.state.tasks} addTask={this.addTask} />
             )
           } else {
             return <Redirect to="/login" />
           }
 
-        }}/>
+        }} />
 
         <Route path="/register" render={props => {
           return (
             <RegisterForm {...props} users={this.state.users} checkUserEmail={this.checkUserEmail} checkUserName={this.checkUserName}
-            addUser={this.addUser} mountUponLogin={this.mountUponLogin}/>
+              addUser={this.addUser} mountUponLogin={this.mountUponLogin} />
           )
         }} />
 
         <Route exact path="/login" render={props => {
           return (
-            <LoginForm {...props} checkUserName={this.checkUserName} checkUserEmail={this.checkUserEmail} users={this.state.users} mountUponLogin={this.mountUponLogin}/>
+            <LoginForm {...props} checkUserName={this.checkUserName} checkUserEmail={this.checkUserEmail} users={this.state.users} mountUponLogin={this.mountUponLogin} />
           )
         }} />
 

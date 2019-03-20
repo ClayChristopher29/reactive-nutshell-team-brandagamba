@@ -22,13 +22,14 @@ class NavBar extends Component {
                     <li className="nav-item">
                         <Link className="nav-link" to="/tasks">Tasks</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/friends">Friends</Link>
+                    </li>
                     <li className=
                     "nav-item">
                         <Link className="nav-link" to="/login" onClick={this.props.handleLogout}>Log Out</Link>
                     </li>
-                    {/* <li className="nav-item">
-                        <Link className="nav-link" to="/friends">Friends</Link>
-                    </li> */}
+
                 </ul>
             </nav>
         )
