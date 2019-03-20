@@ -1,13 +1,9 @@
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
+import { Redirect, Link, Route } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 
 class NavBar extends Component {
-    handleLogOut = evt => {
-        evt.preventDefault()
-        sessionStorage.removeItem("activeUser")
-    }
 
     render() {
 
@@ -28,7 +24,7 @@ class NavBar extends Component {
                     </li>
                     <li className=
                     "nav-item">
-                        <Link className="nav-link" to="/login" onClick={this.handleLogOut}>Log Out</Link>
+                        <Link className="nav-link" to="/login" onClick={this.props.handleLogout}>Log Out</Link>
                     </li>
                     {/* <li className="nav-item">
                         <Link className="nav-link" to="/friends">Friends</Link>

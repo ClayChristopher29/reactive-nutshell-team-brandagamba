@@ -202,79 +202,127 @@ updateEvent = (eventObj) => {
 
         <Route
           exact path="/" render={props => {
-            return <NewsList {...props}
+            if(this.isAuthenticated()){
+              return <NewsList {...props}
               news={this.state.news}
               deleteArticle={this.deleteArticle} />
-
+            } else {
+              return <Redirect to="/login" />
+            }
           }} />
         <Route
           path="/news/new" render={props => {
+            if(this.isAuthenticated()){
             return <NewsForm {...props}
               news={this.state.news}
               addNewArticle={this.addNewArticle}
             />
+            } else {
+              return <Redirect to="/login" />
+            }
 
           }} />
         <Route
           path="/news/:newsId(\d+)/edit" render={props => {
+            if(this.isAuthenticated()){
             return <NewsEditForm {...props}
               news={this.state.news}
               editArticle={this.editArticle}
             />
+            } else {
+              return <Redirect to="/login" />
+            }
 
           }} />
 
 
         <Route
           exact path="/events" render={props => {
-            return <EventList {...props} events={this.state.events} deleteEvent={this.deleteEvent} />
+            if(this.isAuthenticated()) {
+              return <EventList {...props} events={this.state.events} deleteEvent={this.deleteEvent} />
+            } else {
+              return <Redirect to="/login" />
+            }
+
           }}
         />
         <Route
            path="/events/new" render={props => {
+             if(this.isAuthenticated()){
             return <EventForm  {...props} events={this.state.events} addEvent={this.addEvent}/>
+             } else {
+               return <Redirect to="/login" />
+             }
           }}
         />
          <Route
            path="/events/:eventId(\d+)/edit" render={props => {
+             if(this.isAuthenticated()) {
             return <EventEditForm  {...props} events={this.state.events} updateEvent={this.updateEvent}/>
+             } else {
+               return <Redirect to="/login" />
+             }
           }}
         />
 
 
         {/* <Route
           path="/friends" render={props => {
-            return null
+            if(this.isAuthenticated()){
+               return null
             // Remove null and return the component which will show list of friends
+            } else {
+              return <Redirect to="/login" />
+            }
+
           }}
         /> */}
 
         <Route
           path="/messages" render={props => {
+            if(this.isAuthenticated()){
             return null
             // Remove null and return the component which will show the messages
+            } else {
+              return <Redirect to="/login" />
+            }
           }}
         />
 
         <Route
           exact path="/tasks" render={props => {
-            return (
-              <TaskList {...props} tasks={this.state.tasks} completeTask={this.completeTask}/>
-            )
+            if(this.isAuthenticated()){
+              return (
+                <TaskList {...props} tasks={this.state.tasks} completeTask={this.completeTask}/>
+              )
+            } else {
+              return <Redirect to="/login" />
+            }
+
 
           }}
         />
 
         <Route path="/tasks/:taskId(\d+)/edit" render={props => {
-          return (
-            <TaskEditForm {...props} tasks={this.state.tasks} updateTask={this.updateTask}/>
-          )
+          if(this.isAuthenticated()){
+            return (
+              <TaskEditForm {...props} tasks={this.state.tasks} updateTask={this.updateTask}/>
+            )
+          } else {
+            return <Redirect to="/login" />
+          }
+
         }} />
 
         <Route exact path="/tasks/new" render={props=> {
-          return (
-            <TaskForm {...props} tasks={this.state.tasks} addTask={this.addTask}/>
-          )
+          if(this.isAuthenticated()) {
+            return (
+              <TaskForm {...props} tasks={this.state.tasks} addTask={this.addTask}/>
+            )
+          } else {
+            return <Redirect to="/login" />
+          }
+
         }}/>
 
         <Route path="/register" render={props => {
