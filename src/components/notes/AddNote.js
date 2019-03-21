@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 // import "./Animal.css";
 
-export default class AnimalForm extends Component {
+export default class AddNote extends Component {
   // Set initial state
   state = {
-    note: ""
+    note: "",
+    userId: this.props.activeUser
   };
 
   // Update state whenever an input field is edited
@@ -24,7 +25,9 @@ export default class AnimalForm extends Component {
       window.alert("Cannot leave blank");
     } else {
       const note = {
-        name: this.state.note
+        name: this.state.note,
+        // userId: parseInt(this.state.userId)
+
       };
 
       // Create the animal and redirect user to animal list
@@ -35,8 +38,10 @@ export default class AnimalForm extends Component {
   };
 
   render() {
+
     return (
       <React.Fragment>
+
         <form className="noteForm">
           <div className="form-group">
             <label htmlFor="Note">Note</label>

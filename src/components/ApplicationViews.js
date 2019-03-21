@@ -100,14 +100,17 @@ export default class ApplicationViews extends Component {
 
 
         />
-   <Route path="/animals/new" render={(props) => {
+   <Route path="/notes/new" render={(props) => {
                     return <AddNote {...props}
                         addNote={this.addNote}
                         notes={this.state.notes}
+                        users={this.state.users}
                     />
 
 
                 }} />
+
+
         <Route
           path="/messages" render={props => {
             return null
