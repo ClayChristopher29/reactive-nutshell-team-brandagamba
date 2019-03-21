@@ -134,5 +134,22 @@
       "userId": 2,
       "id": 3
     }
+  ],
+  "notes": [
+    {
+      "note": "gwrgrhhehthej",
+      "userId": 1,
+      "id": 1
+    },
+    {
+      "note": "Test note 232425",
+      "userId": 2,
+      "id": 2
+    },
+    {
+      "note": "Test note 232425",
+      "userId": 2,
+      "id": 2
+    }
   ]
 }
