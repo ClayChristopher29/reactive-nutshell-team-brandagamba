@@ -20,6 +20,7 @@ import AuthenticationManager from "../modules/AuthenticationManager"
 import RegisterForm from "./authentication/RegisterForm"
 import LoginForm from "./authentication/LoginForm"
 import MessageList from "./messages/MessageList"
+import NewModalForm from "./tasks/NewModalForm"
 
 
 
@@ -296,7 +297,7 @@ export default class ApplicationViews extends Component {
           exact path="/tasks" render={props => {
             if(this.isAuthenticated()){
               return (
-                <TaskList {...props} tasks={this.state.tasks} completeTask={this.completeTask}/>
+                <TaskList {...props} tasks={this.state.tasks} addTask={this.addTask} completeTask={this.completeTask}/>
               )
             } else {
               return <Redirect to="/login" />
@@ -338,6 +339,12 @@ export default class ApplicationViews extends Component {
         <Route exact path="/login" render={props => {
           return (
             <LoginForm {...props} checkUserName={this.checkUserName} checkUserEmail={this.checkUserEmail} users={this.state.users} mountUponLogin={this.mountUponLogin}/>
+          )
+        }} />
+
+        <Route path="/tasks/new" render={props => {
+          return (
+            <NewModalForm {...props} tasks={this.state.tasks}/>
           )
         }} />
 
