@@ -34,15 +34,25 @@ export default class TaskList extends Component {
 
   render() {
     let modalClose = () => this.setState({ showModal: false })
-
+    let filteredTasks= this.props.tasks.filter((task) => {
+      return task.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 || task.date.indexOf(this.state.search) !== -1
+    })
+    console.log()
     return (
-//     let filteredEvents = this.props.events.filter((event) =>{
-//     return event.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 || event.date.indexOf(this.state.search) !== -1 })
-//       return(
 
-      // letFilteredTasks = this.props.tasks.filter((event) => {
-      //   return task.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !==-1 || task.date.indexOf(this.state.search) !== -1
-      // })
+      // render() {
+        // let filteredEvents = this.props.events.filter((event) =>{
+        // return event.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 || event.date.indexOf(this.state.search) !== -1 })
+        //   return(
+        //     <React.Fragment>
+        //       <h1>Events</h1>
+        //       <input type="text"
+        //        placeholder="Search"
+        //        className="search"
+        //        value={this.state.search}
+        //        id="search"
+        //         onChange={this.handleFieldChange}
+              //
       <div>
         <h1>Tasks</h1>
         <button
@@ -51,7 +61,10 @@ export default class TaskList extends Component {
         >
           Add new task
         </button>
-        <input type="text" placeholder="Search" classNamge="search" value={this.state.search} id="search" onChange={this.handleFieldChange}/>
+        <input type="text" placeholder="Search" className="search" value={this.state.search} id="search" onChange={this.handleFieldChange}/>
+        {this.filteredTasks.map((task) => {
+          return <ul><li>{task}</li></ul>
+        })}
         {this.props.tasks.map(task => {
           return (
             <div className="card" style={{width: "18rem"}}>
