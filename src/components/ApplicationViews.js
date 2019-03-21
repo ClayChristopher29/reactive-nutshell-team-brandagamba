@@ -33,7 +33,8 @@ export default class ApplicationViews extends Component {
     messages: [],
     friends: [],
     tasks: [],
-    activeUser: sessionStorage.getItem("activeUser")
+    activeUser: sessionStorage.getItem("activeUser"),
+    friendsWithStuff:[]
   }
 
   // when login/register route is created, the onClick function will be handled here.
@@ -72,7 +73,37 @@ export default class ApplicationViews extends Component {
         events: events
       }))
   }
+  buildFriendArray = (newState) => {
 
+    // find all the friends when the active user is in the userId place
+    const filteredbyUser = newState.friends.filter((friend) =>
+    {
+      return friend.userId === parseInt(sessionStorage.getItem("activeUser"))
+    })
+
+    const mappedbyUser = filteredbyUser.map((each) => each.otherFriendId)
+    // console.log(mappedbyUser)
+
+    // find all the friends when the active user is in the otherFriendId place
+    const filteredbyFriend = newState.friends.filter((friend) => friend.otherFriendId === parseInt(sessionStorage.getItem("activeUser")))
+    const mappedbyFriend = filteredbyFriend.map((each) => each.userId)
+    // console.log(mappedbyFriend)
+    // Concatenate the arrays together to form one array
+    const friendArray = mappedbyFriend.concat(mappedbyUser)
+    // console.log(friendArray)
+    const friendsWithStuff = []
+    friendArray.forEach(id => {
+        const friendWithStuff = newState.users.find((user) => user.id === id)
+        // console.log(friendWithStuff)
+        friendsWithStuff.push(friendWithStuff)
+
+    })
+    this.setState({ friendsWithStuff: friendsWithStuff })
+
+
+    // return friendsWithStuff
+
+}
 
 
   mountUponLogin = () => {
@@ -96,7 +127,16 @@ export default class ApplicationViews extends Component {
       .then(friends => newState.friends = friends)
       .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
       .then(tasks => newState.tasks = tasks)
-      .then(() => this.setState(newState))
+      .then(() => {
+      this.buildFriendArray(newState)
+      this.setState(newState)})
+
+
+
+      // this.buildFriendArray(newState)
+
+
+
   }
 
   componentDidMount() {
@@ -200,6 +240,11 @@ export default class ApplicationViews extends Component {
     }))
   }
 
+  getFriendsWithStuff =(id)=>{
+    return FriendAPIManager.getFriendsWithStuff(id)
+
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -278,7 +323,10 @@ export default class ApplicationViews extends Component {
                return <FriendList {...props}
                friends={this.state.friends}
                activeUser={this.state.activeUser}
-               users={this.state.users}/>
+               users={this.state.users}
+               friendsWithStuff={this.state.friendsWithStuff}
+               getFriendsWithStuff={this.getFriendsWithStuff}
+               buildFriendArray={this.buildFriendArray}/>
             } else {
               return <Redirect to="/login" />
             }

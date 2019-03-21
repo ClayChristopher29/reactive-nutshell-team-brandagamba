@@ -13,9 +13,14 @@ export default {
             body: JSON.stringify(newFriend)
         })
     },
-    deleteFriend: (id) =>{
+    deleteFriend: (id) => {
         return fetch(`http://localhost:5002/friends/${id}`)
-        .then(r=>r.json())
+            .then(r => r.json())
+    },
+    getFriendsWithStuff: (id) => {
+
+        return fetch(`http://localhost:5002/users/${id}?&_embed=news&_embed=events`)
+            .then(r => r.json())
     }
 }
 
