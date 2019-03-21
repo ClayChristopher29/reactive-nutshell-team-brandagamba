@@ -7,6 +7,7 @@ export default class TaskList extends Component {
   //pass down a patch function from application views that handles change event on checkboxes!
   state = {
     showModal: false,
+    search: ""
   }
 
   handleModal = evt => {
@@ -24,9 +25,6 @@ export default class TaskList extends Component {
 
 
   handleCheckbox = evt => {
-    // const stateToChange = {}
-    // stateToChange[evt.target.id] = evt.target.value
-    // this.setState(stateToChange)
     evt.preventDefault();
     const completeObject = {
       complete: true
@@ -38,6 +36,13 @@ export default class TaskList extends Component {
     let modalClose = () => this.setState({ showModal: false })
 
     return (
+//     let filteredEvents = this.props.events.filter((event) =>{
+//     return event.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 || event.date.indexOf(this.state.search) !== -1 })
+//       return(
+
+      // letFilteredTasks = this.props.tasks.filter((event) => {
+      //   return task.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !==-1 || task.date.indexOf(this.state.search) !== -1
+      // })
       <div>
         <h1>Tasks</h1>
         <button
@@ -46,6 +51,7 @@ export default class TaskList extends Component {
         >
           Add new task
         </button>
+        <input type="text" placeholder="Search" classNamge="search" value={this.state.search} id="search" onChange={this.handleFieldChange}/>
         {this.props.tasks.map(task => {
           return (
             <div className="card" style={{width: "18rem"}}>

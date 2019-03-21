@@ -365,11 +365,7 @@ export default class ApplicationViews extends Component {
           exact path="/tasks" render={props => {
             if (this.isAuthenticated()) {
               return (
-<<<<<<< HEAD
                 <TaskList {...props} tasks={this.state.tasks} addTask={this.addTask} completeTask={this.completeTask}/>
-=======
-                <TaskList {...props} tasks={this.state.tasks} completeTask={this.completeTask} />
->>>>>>> master
               )
             } else {
               return <Redirect to="/login" />
