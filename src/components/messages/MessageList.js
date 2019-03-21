@@ -165,7 +165,7 @@ export default class MessageList extends Component {
     render() {
         return <React.Fragment>
             <section className="messages-section">
-                <h2> Messages</h2>
+                <h1> Messages</h1>
                 <div className="message-container" ref={this.messageContainer}>
                     {this.props.messages.map((message) =>
 

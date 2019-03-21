@@ -6,6 +6,10 @@ import NewsAPIManager from "../modules/NewsManager"
 import MessageAPIManager from "../modules/MessageManager"
 import EventAPIManager from "../modules/EventManager"
 import FriendAPIManager from "../modules/FriendManager"
+import NoteAPIManager from "../modules/NoteManager"
+import NoteList from "./notes/NoteList"
+import NoteEditForm from './notes/NoteEditForm'
+import AddNote from "./notes/AddNote"
 import EventList from './event/EventList'
 import EventForm from './event/EventForm'
 import EventEditForm from './event/EventEditForm'
@@ -32,9 +36,11 @@ export default class ApplicationViews extends Component {
     news: [],
     messages: [],
     friends: [],
+    notes: [],
     tasks: [],
     activeUser: sessionStorage.getItem("activeUser"),
-    friendsWithStuff:[]
+    friendsWithStuff:[],
+    currentUsername:""
   }
 
   // when login/register route is created, the onClick function will be handled here.
@@ -45,6 +51,32 @@ export default class ApplicationViews extends Component {
   // Check if credentials are in local storage
   // isAuthenticated = () => sessionStorage.getItem("credentials") !== null
 
+  //Note functions
+  deleteNote = id => {
+    return NoteAPIManager.deleteNote(id)
+      .then(() => NoteAPIManager.getAllNotes(this.state.activeUser))
+      .then(notes => this.setState({
+        notes: notes
+      })
+      )
+  }
+
+  addNote = notes =>
+    NoteAPIManager.postNote(notes)
+      .then(() => NoteAPIManager.getAllNotes(this.state.activeUser))
+      .then(notes =>
+        this.setState({
+          notes: notes
+        })
+      );
+
+      updateNote = editedNoteObject => {
+        return NoteAPIManager.updateNote(editedNoteObject)
+          .then(() => NoteAPIManager.getAllNotes(this.state.activeUser))
+          .then(notes => this.setState({
+            notes: notes
+          }))
+      }
 
   // ********** Event Functions ***********
   addEvent = (event) => {
@@ -74,18 +106,19 @@ export default class ApplicationViews extends Component {
       }))
   }
   buildFriendArray = (newState) => {
+    const activeUser = parseInt(sessionStorage.getItem("activeUser"))
 
     // find all the friends when the active user is in the userId place
     const filteredbyUser = newState.friends.filter((friend) =>
     {
-      return friend.userId === parseInt(sessionStorage.getItem("activeUser"))
+      return friend.userId === activeUser
     })
 
     const mappedbyUser = filteredbyUser.map((each) => each.otherFriendId)
     // console.log(mappedbyUser)
 
     // find all the friends when the active user is in the otherFriendId place
-    const filteredbyFriend = newState.friends.filter((friend) => friend.otherFriendId === parseInt(sessionStorage.getItem("activeUser")))
+    const filteredbyFriend = newState.friends.filter((friend) => friend.otherFriendId === activeUser)
     const mappedbyFriend = filteredbyFriend.map((each) => each.userId)
     // console.log(mappedbyFriend)
     // Concatenate the arrays together to form one array
@@ -99,6 +132,9 @@ export default class ApplicationViews extends Component {
 
     })
     this.setState({ friendsWithStuff: friendsWithStuff })
+
+    UserAPIManager.getSingleUser(activeUser)
+    .then(user=>{this.setState({currentUsername: user.username})})
 
 
     // return friendsWithStuff
@@ -116,7 +152,8 @@ export default class ApplicationViews extends Component {
 
     UserAPIManager.getAllUsers()
       .then(users => newState.users = users)
-      .then(users => newState.users = users)
+      .then(() =>NoteAPIManager.getAllNotes(this.state.activeUser))
+      .then(notes => newState.notes = notes)
       .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
       .then(events => newState.events = events)
       .then(() => NewsAPIManager.getAllNews(this.state.activeUser))
@@ -326,11 +363,52 @@ export default class ApplicationViews extends Component {
                users={this.state.users}
                friendsWithStuff={this.state.friendsWithStuff}
                getFriendsWithStuff={this.getFriendsWithStuff}
-               buildFriendArray={this.buildFriendArray}/>
+               buildFriendArray={this.buildFriendArray}
+               checkUsername={this.checkUserName}
+               currentUsername={this.state.currentUsername}
+               addNewFriend={this.addNewFriend}/>
+          }
+        }}
+        />
+
+        <Route
+           exact path="/notes" render={props => {
+            if (this.isAuthenticated()) {
+
+              return <NoteList {...props}
+                deleteNote={this.deleteNote}
+                addNote={this.addNote}
+                notes={this.state.notes}
+
+              />
             } else {
               return <Redirect to="/login" />
             }
+          }}
+        />
 
+
+
+        <Route exact path="/notes/new" render={(props) => {
+          if (this.isAuthenticated()) {
+
+            return <AddNote {...props}
+              addNote={this.addNote}
+              notes={this.state.notes}
+
+            />
+          } else {
+            return <Redirect to="/login" />
+          }
+
+        }} />
+  <Route
+          exact path="/notes/:noteId(\d+)/edit" render={props => {
+             if(this.isAuthenticated()) {
+            return <NoteEditForm  {...props} notes={this.state.notes} updateNote={this.updateNote}/>
+             } else {
+               return <Redirect to="/login" />
+             }
           }}
         />
 
@@ -344,6 +422,7 @@ export default class ApplicationViews extends Component {
                 addNewMessage={this.addNewMessage}
                 editMessage={this.editMessage}
                 addNewFriend = {this.addNewFriend}/>
+
             } else {
               return <Redirect to="/login" />
             }
