@@ -5,18 +5,18 @@ export default {
             .then(r => r.json())
     },
 
-    getAllNotes: () => {
-        return fetch(`http://localhost:5002/notes?_expand=user&userId=1`)
+    getAllNotes: (id) => {
+        return fetch(`http://localhost:5002/notes?userId=${id}`)
             .then(r => r.json())
     },
 
-    postNote(newFriend) {
+    postNote(newNote) {
         return fetch("http://localhost:5002/notes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(newFriend)
+            body: JSON.stringify(newNote)
         }).then(data => data.json())
     },
     deleteNote: id => {
@@ -24,7 +24,15 @@ export default {
             method: "DELETE"
         }).then(friends => friends.json)
     },
-
+    updateNote(editedNote) {
+        return fetch(`http://localhost:5002/notes/${editedNote.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(editedNote)
+        });
+      },
     // getNoteByUser: id => {
     //     return fetch(`http://localhost:5002/notes?_expand=user&userId=1`)
     //     .then(r => r.json)

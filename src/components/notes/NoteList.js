@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 
 export default class NoteList extends Component {
     render() {
         return (
-            <React.Fragment>
+            <form>
                 <div className="newButton">
                     <button type="button"
-                        className="btn btn-success"
+                        className="btn btn-secondary"
                         onClick={() => {
                             this.props.history.push("/notes/new")
                         }
@@ -23,16 +22,20 @@ export default class NoteList extends Component {
                                 <div className="card-body">
                                     <h5 className="card-title">
                                         {/* <img src={dog} alt="" className="icon--dog" /> */}
-                                        <p className="newNote">{note.note}</p>
+                                        <p className="newNote">{note.name}</p>
+                                        <button className="card-link btn btn-primary"
+                                            onClick={() => {
+                                                this.props.history.push(`/notes/${note.id}/edit`);
+                                            }}>Edit</button>
                                         <button
-                                    type="button"
-                                    className="btn btn-success"
-                                    onClick={() => {
-                                        this.props.deleteNote(note.id)
-                                        this.props.history.push(`/notes`);
-                                    }}
-                                >
-                                    Delete
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={() => {
+                                                this.props.deleteNote(note.id)
+                                                this.props.history.push(`/notes`);
+                                            }}
+                                        >
+                                            Delete
 </button>
 
 
@@ -42,7 +45,7 @@ export default class NoteList extends Component {
                         )
                     }
                 </section>
-            </React.Fragment>
+            </form>
         )
 
     }

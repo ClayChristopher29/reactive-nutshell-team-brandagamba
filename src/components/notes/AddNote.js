@@ -5,7 +5,7 @@ export default class AddNote extends Component {
   // Set initial state
   state = {
     note: "",
-    userId: this.props.activeUser
+    userId:parseInt(sessionStorage.getItem("activeUser"))
   };
 
   // Update state whenever an input field is edited
@@ -21,13 +21,9 @@ export default class AddNote extends Component {
      */
   constructNewNote = evt => {
     evt.preventDefault();
-    if (this.state.note === "") {
-      window.alert("Cannot leave blank");
-    } else {
       const note = {
         name: this.state.note,
-        // userId: parseInt(this.state.userId)
-
+        userId: this.state.userId
       };
 
       // Create the animal and redirect user to animal list
@@ -35,16 +31,14 @@ export default class AddNote extends Component {
         .addNote(note)
       this.props.history.push("/notes");
     }
-  };
+
 
   render() {
 
     return (
-      <React.Fragment>
-
         <form className="noteForm">
           <div className="form-group">
-            <label htmlFor="Note">Note</label>
+            <label htmlFor="Note">New Note</label>
             <input
               type="text"
               required
@@ -62,7 +56,6 @@ export default class AddNote extends Component {
             Submit
           </button>
         </form>
-      </React.Fragment>
     );
   }
 }
