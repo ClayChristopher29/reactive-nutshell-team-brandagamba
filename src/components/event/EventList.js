@@ -35,8 +35,6 @@ export default class EventList extends Component {
                 </div>
               </div>
                 )}
-
-
                 </section>
             </React.Fragment>
 
