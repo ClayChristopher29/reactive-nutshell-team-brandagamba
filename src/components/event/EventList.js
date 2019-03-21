@@ -40,9 +40,10 @@ export default class EventList extends Component {
                 <div className="carddb" key={event.id}>
                 <div className="card-body">
                   <p className="card-title">{event.name}</p>
-                  <p className="card-subtitle mb-2 text-muted"><Moment format="MM/DD/YYYY">
+                  <p className="card-subtitle mb-2 text-muted"><Moment format="dddd, MMMM Do, YYYY">
                {event.date}
            </Moment></p>
+           <Moment format="dddd, MMMM Do, YYYY" subtract={{ days: 1 }} >{event.date}</Moment>
                   <p className="card-text">{event.location}</p>
                   <button  className="card-link btn btn-primary"
                    onClick={() => {

@@ -40,23 +40,33 @@ export default class EventForm extends Component {
 
     render() {
 
-        return(
-            <form>
-    <div className="form-group">
-    <label htmlFor="formEventInput">Event Name</label>
-    <input type="text" className="form-control" id="name" placeholder="Name..." onChange={this.handleFieldChange} />
-    </div>
-    <div className="form-group">
-    <label htmlFor="formEventInput">Event Date</label>
-    <input type="date" className="form-control" id="date" placeholder="Date..." onChange={this.handleFieldChange} />
-    </div>
-    <div className="form-group">
-    <label htmlFor="formEventInput">Event Location</label>
-    <input type="text" className="form-control" id="location" placeholder="Location..." onChange={this.handleFieldChange}/>
-    </div>
-    <button type="button" className="btn btn-success"
-    onClick={this.constructNewEvent}>Submit</button>
-    </form>
-        )
+      const currentDate = new Date()
+
+      return (
+
+        <Moment format=" LLLL">{currentDate}</Moment>
+
+      )
+
+
+
+    //     return(
+    //         <form>
+    // <div className="form-group">
+    // <label htmlFor="formEventInput">Event Name</label>
+    // <input type="text" className="form-control" id="name" placeholder="Name..." onChange={this.handleFieldChange} />
+    // </div>
+    // <div className="form-group">
+    // <label htmlFor="formEventInput">Event Date</label>
+    // <input type="date" className="form-control" id="date" placeholder="Date..." onChange={this.handleFieldChange} />
+    // </div>
+    // <div className="form-group">
+    // <label htmlFor="formEventInput">Event Location</label>
+    // <input type="text" className="form-control" id="location" placeholder="Location..." onChange={this.handleFieldChange}/>
+    // </div>
+    // <button type="button" className="btn btn-success"
+    // onClick={this.constructNewEvent}>Submit</button>
+    // </form>
+    //     )
     }
 }
