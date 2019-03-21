@@ -19,18 +19,7 @@ export default class NewModalForm extends Component {
     this.setState(stateToChange)
 }
 
-//     addNewTask = evt => {
-//       evt.preventDefault();
-//       // const task = {
-//       //     task: this.state.newTask,
-//       //     dueDate: this.state.newDueDate,
-//       //     complete: this.state.newComplete,
-//       //     userId: this.state.userId
-//       // }
-//       this.props.addTask(task)
-
-// }
-
+//Combines modal hide function and add new task button so that both will run on submit click
     submitModal = evt => {
       evt.preventDefault()
       const task = {
