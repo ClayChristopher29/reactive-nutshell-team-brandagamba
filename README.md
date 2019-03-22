@@ -1,70 +1,41 @@
-# Nutshell: The Information Dashboard | React Edition
+To run the Reactive Nutshell Application:
 
-Your clients were thrilled with the product of your first sprint on the Nutshell app. They've decided that this app could be the Next Big Thing, and they want you to rebuild the app using React for maximum scalability and performance. The features of the app will be exactly the same. This time, you'll start out with some boilerplate code. Once you've set up your team repo, everyone should clone down this repository. 
+Visit github and fork a repository from https://github.com/NewForce-at-Mountwest/reactive-nutshell-team-brandagamba.
+In your fork, type npm install. After installation is complete, use the "npm install react-bootstrap" and the "npm install --save moment react-moment" commands to install the necesary node modules.
 
-Before you begin, one person should make an `api` folder and a `database.json` file. *Make sure that your database file is in your .gitignore before you commit.*
+In the api folder, there will be two components: 'boilerplate.json' and 'database.json'. Copy the contents of the 'boilerplate.json' into the 'database.json' file and save. Open a new terminal window and run the 'json-server -p 5002 -w api/database.json' command to start your json server.
 
-Just to refresh your memory, here's an example of what your data structure might look like. 
+Run the 'npm start' command in your terminal to launch the website.
 
-### Users
+Once the Reactive Nutshell Application is loaded in your browser:
 
-```json
-{ "id": 1, "username": "Steve", "email": "me@me.com" }
-```
+The application will load with a Sign In form, where the user can log in. There is a register button that navigates to a register page if the user does not already have an account. Use the credentials username: "Steve" email: "me@me.com" to log in and access pre-loaded sample data from your json server.
 
-### Messages
+There is a nav bar at the top which allows the user to navigate to six sections.
 
-```json
-{ "id": 1, "userId": 1, "message": "What's up?" }
-```
+#News
 
-### News
+User can click the "Add new article" button to add a synopsis, title, and link for a new article. Articles will then be displayed in descending order (by date) in the article list. Upon clicking the "Edit" button, user will be taken to a pre-populated form where they may change the details of a previously entered article.
 
-```json
-{
-    "id": 1,
-    "userId": 2,
-    "url": "https://www.quantamagazine.org/newfound-wormhole-allows-information-to-escape-black-holes-20171023/",
-    "title": "Wormholes Allow Information to Escape Black Holes",
-    "synopsis": "Check out this recent discovery about workholes"
-}
-```
+#Events
 
-### Friends
+User can click the "Add event" button to access a form where they may enter a name, location, and date for an event. Adding the event will return them to their personal event list where the events will be sorted with the closest upcoming event at the top, in slightly larger font, with a light blue background. The edit event button will take them to a pre-populated edit form where they may change the details of the event. Saving the changes will return them to the newly sorted list. The "delete" button will allow a user to remove an event from the database as well as the list.
 
-```json
-{ "id": 1, "userId": 1, "otherFriendId": 3 }
-```
+#Messages
 
-### Tasks
+User will navigate to a scrolling message list where they can see messages entered by other users, as well as their own. They may enter a new message in the message box below the scroll box. They may also use the "edit" feature to edit any message they have entered in place. Users cannot edit messages submitted by other users.
 
-```json
-{ "id": 1, "userId": 3, "task": "Take out garbage" }
-```
+#Tasks
 
-## Professional Requirements
+Upon navigating to the "tasks" section, users will be able to add a new task with the "Add new task button". They may enter a due date and a task name. Upon saving the task, they will be returned to their personal task list. Users can check the checkbox next to a task to remove it from their list, but keep it in the database. To edit a task, a user can click the task name to access a pre-populated edit form. After editing their changes, the user can submit them by pressing the "enter" key.
 
-1. Each teammate should build their own component structure for their feature. Once you hit MVP, you're welcome to refactor your app to use reusable components. 
-1. In the interest of cross-training, each team member *should try to build a different module than the one they built last time*.
-1. The README for your project should include instructions on how another person can download and run the application
+#Notes
 
-## How to Handle Authentication
+In the Notes section, a user may choose to add a new note by clicking on the "New Note" button. They can save a note to their personal list, choose to edit a note with a pre-populated edit form, or delete a note from their list and the database entirely.
 
-You will be using session storage to keep track of which user has logged into Nutshell. When the user fills out the registration form, you will POST their username and password to the `users` collection in your API. You will then immediately take the `id` of the object in the response and save it to session storage.
+#Friends
 
-```js
-sessionStorage.setItem("activeUser", user.id)
-```
 
-If you want to add a Logout feature, all you need to do it remove the session storage item.
-
-```js
-sessionStorage.removeItem("activeUser")
-```
-
-## Stretch Goals
-1. Private chat messages
-1. Friend requests, and the ability to reject or accept them
-1. Real time chat updates. If a user in one tab writes a chat message, a user logged in on another tab [will immediately see that chat message](https://www.w3schools.com/jsreF/event_storage_storagearea.asp)
-
+#Log out
+The user may log out at any time by clicking the "Log Out" link in the nav bar. Upon logging out, the user will be returned to the "Log In" page and will be unable to access their information until logged back in.
 

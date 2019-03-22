@@ -1,6 +1,5 @@
 import React, {Component} from "react"
 import TaskManager from "../../modules/TaskManager";
-// import TaskManager from "../modules/TaskManager"
 
 
 export default class TaskEditForm extends Component {
@@ -66,14 +65,5 @@ render() {
         </React.Fragment>
 
      )
-
 }
-
-
-
-
-
-
-
-
 }
