@@ -25,6 +25,7 @@ import RegisterForm from "./authentication/RegisterForm"
 import LoginForm from "./authentication/LoginForm"
 import MessageList from "./messages/MessageList"
 import FriendList from "./friends/FriendList"
+import NewModalForm from "./tasks/NewModalForm"
 
 
 
@@ -272,6 +273,7 @@ export default class ApplicationViews extends Component {
     return AuthenticationManager.registerNewUser(userObject)
   }
 
+
   addNewFriend = (friendObject) => {
     return FriendAPIManager.addNewFriend(friendObject)
       .then(FriendAPIManager.getAllFriends)
@@ -291,6 +293,12 @@ export default class ApplicationViews extends Component {
   }
 
 
+
+
+
+  loginCheck = (username, email) => {
+    return AuthenticationManager.checkUsernameAndEmail(username, email)
+  }
 
 
   render() {
@@ -452,7 +460,7 @@ export default class ApplicationViews extends Component {
           exact path="/tasks" render={props => {
             if (this.isAuthenticated()) {
               return (
-                <TaskList {...props} tasks={this.state.tasks} completeTask={this.completeTask} />
+                <TaskList {...props} tasks={this.state.tasks} addTask={this.addTask} completeTask={this.completeTask}/>
               )
             } else {
               return <Redirect to="/login" />
@@ -493,7 +501,13 @@ export default class ApplicationViews extends Component {
 
         <Route exact path="/login" render={props => {
           return (
-            <LoginForm {...props} checkUserName={this.checkUserName} checkUserEmail={this.checkUserEmail} users={this.state.users} mountUponLogin={this.mountUponLogin} />
+            <LoginForm {...props} checkUserName={this.checkUserName} loginCheck={this.loginCheck} checkUserEmail={this.checkUserEmail} users={this.state.users} mountUponLogin={this.mountUponLogin} />
+          )
+        }} />
+
+        <Route path="/tasks/new" render={props => {
+          return (
+            <NewModalForm {...props} tasks={this.state.tasks}/>
           )
         }} />
 
