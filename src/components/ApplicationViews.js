@@ -225,6 +225,10 @@ export default class ApplicationViews extends Component {
     return AuthenticationManager.registerNewUser(userObject)
   }
 
+  loginCheck = (username, email) => {
+    return AuthenticationManager.checkUsernameAndEmail(username, email)
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -406,7 +410,7 @@ export default class ApplicationViews extends Component {
 
         <Route exact path="/login" render={props => {
           return (
-            <LoginForm {...props} checkUserName={this.checkUserName} checkUserEmail={this.checkUserEmail} users={this.state.users} mountUponLogin={this.mountUponLogin} />
+            <LoginForm {...props} checkUserName={this.checkUserName} loginCheck={this.loginCheck} checkUserEmail={this.checkUserEmail} users={this.state.users} mountUponLogin={this.mountUponLogin} />
           )
         }} />
 
