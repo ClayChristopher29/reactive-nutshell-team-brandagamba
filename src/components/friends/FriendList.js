@@ -1,13 +1,17 @@
 import React, { Component } from "react"
 import "./Friends.css"
+import friendAuthentication from "../../modules/FriendAuthentication"
+import AuthenticationManager from "../../modules/AuthenticationManager"
 
 export default class FriendList extends Component {
 
     state = {
         activeUser: parseInt(this.props.activeUser),
-        friendsWithStuff: "",
-        testState: [],
-        addFriend: ""
+        // friendsWithStuff: "",
+        // testState: [],
+        addFriend: "",
+        errorStatement:"",
+
     }
 
 
@@ -65,6 +69,8 @@ export default class FriendList extends Component {
     //     }
     //     )
     // }
+
+
     // this function handles the input fields and automatically sets the variable in state
     handleFieldChange = evt => {
         const stateToChange = {};
@@ -72,60 +78,21 @@ export default class FriendList extends Component {
         this.setState(stateToChange);
     };
 
-    addNewFriend = () => {
-        let friendIsNotSelf = ""
-        let friendIsInDatabase = ""
-        let friendIsNotFriend = ""
-        let otherFriendId = ""
-
-        // check to see if the name they input is in the database
-        this.props.checkUsername(this.state.addFriend).then(user => {
-            if (user.length) {
-                friendIsInDatabase = true;
-                otherFriendId = user.id
-                console.log("friend is in database", friendIsInDatabase, user.id)
-                // check to make sure they are not trying to add themself
-                if (this.state.addFriend !== this.props.currentUsername) {
-                    friendIsNotSelf = true;
-                    console.log("friend is not self", friendIsNotSelf)
-                }
-                // check to make sure they are not already friends with that person
-                const findFriend = this.props.friendsWithStuff.find((friend =>
-                    friend.username === this.state.addFriend))
-
-                if (!findFriend) {
-                    friendIsNotFriend = true;
-                    console.log("friend is not already friend", friendIsNotFriend)
-
-                }
-                // If criteris is met, add the friend to the database
-                if (friendIsNotSelf === true && friendIsNotFriend === true) {
-                    console.log("you can make a friend!")
-                    const friendObject = {
-                        userId: this.state.activeUser,
-                        otherFriendId: otherFriendId
-                    }
-                    console.log(friendObject)
-                    this.props.addNewFriend(friendObject)
-                }
 
 
-            }
+
+
+    // Give this function friendId, currentUsername, friendsWithStuff
+    AuthenticateFriend=(friendName, currentUsername, friendsWithStuff)=>{
+        AuthenticationManager.checkForUsername(friendName).then(user => {
+            const returned = friendAuthentication(user, friendName, currentUsername, friendsWithStuff)
+
+            // if returned is a string, print the error message.  Otherwise post new friend to database
+            typeof returned === "string" ? this.setState({errorStatement:returned}):this.props.addNewFriend(returned)
+
         }
-        )
+        )}
 
-
-
-
-
-
-
-        console.log(friendIsInDatabase, friendIsNotFriend, friendIsNotSelf)
-
-
-
-
-    }
 
 
     render() {
@@ -141,23 +108,30 @@ export default class FriendList extends Component {
                     type="text"
                     placeholder="enter username"
                     onChange={this.handleFieldChange}></input>
-                <button className="btn btn-secondary" onClick={this.addNewFriend}>Add a Friend</button>
+                <button className="btn btn-add-friend btn-secondary"
+                onClick={()=>{
+                this.AuthenticateFriend(this.state.addFriend, this.props.currentUsername, this.props.friendsWithStuff)}}
+
+                >
+                Add a Friend</button>
+                <span className="errorStatement">{this.state.errorStatement}</span>
                 {this.props.friendsWithStuff.map((friend) =>
                     <div key={friend.id} className="card">
                         <div className="card">
                             <div className="card-title">
 
-                                <span className="friendName">{friend.username}</span><button className="btn-sm btn-danger"
+                                <span className="friendName">{friend.username}</span><button className="btn-sm btn-del-friend btn-danger"
                                     onClick={() => {
-                                        this.props.deleteArticle(friend.id)
-                                        this.props.history.push("/")
+                                        // need to figure out friendship ID!!
+                                        this.props.deleteFriend(friend.friendshipId)
+                                        // this.props.history.push("/friends")
                                     }}>Delete Friend</button>
                                 {(friend.news.length ? <h5>Articles</h5> : "")}
                                 {friend.news.map((article) =>
-                                    <p>{article.title}</p>)}
+                                    <p className="friendStyle">{article.title}</p>)}
                                 {(friend.events.length ? <h5>Events</h5> : "")}
                                 {friend.events.map((event) =>
-                                    <p>{event.name}</p>)}
+                                    <p className="friendStyle">{event.name}</p>)}
 
                             </div>
                         </div>

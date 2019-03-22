@@ -4,3 +4,27 @@
     font-weight: bold;
 
 }
+
+.friendStyle{
+
+    font-style: italic;
+    background-color: cornsilk;
+}
+
+.btn-del-friend{
+
+    margin-left: 10px;
+
+
+}
+
+.btn-add-friend{
+
+    margin-left: 10px;
+}
+.errorStatement{
+color: red;
+font-weight: bold;
+margin-left: 15px;
+
+}

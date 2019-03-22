@@ -14,7 +14,9 @@ export default {
         })
     },
     deleteFriend: (id) => {
-        return fetch(`http://localhost:5002/friends/${id}`)
+        return fetch(`http://localhost:5002/friends/${id}`,{
+            method: "DELETE"
+        })
             .then(r => r.json())
     },
     getFriendsWithStuff: (id) => {

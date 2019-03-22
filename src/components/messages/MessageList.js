@@ -1,9 +1,7 @@
 import React, { Component } from "react"
 import './Messages.css'
-
-
-
-
+import AuthenticationManager from "../../modules/AuthenticationManager"
+import friendAuthentication from "../../modules/FriendAuthentication"
 
 export default class MessageList extends Component {
     // define state
@@ -12,7 +10,8 @@ export default class MessageList extends Component {
         message: "",
         messageToEdit: "",
         someElement: "",
-        friendToAdd: ""
+        friendToAdd: "",
+        errorStatement: ""
     }
 
     componentDidMount = () => {
@@ -100,6 +99,17 @@ export default class MessageList extends Component {
 
 
     }
+
+    // Give this function friendId, currentUsername, friendsWithStuff
+    AuthenticateFriend=(friendName, currentUsername, friendsWithStuff)=>{
+        AuthenticationManager.checkForUsername(friendName).then(user => {
+            const returned = friendAuthentication(user, friendName, currentUsername, friendsWithStuff)
+
+            // if returned is a string, print the error message.  Otherwise post new friend to database
+            typeof returned === "string" ? this.setState({errorStatement:returned}):this.props.addNewFriend(returned)
+
+        }
+        )}
 
 
     // this function handles the input fields and automatically sets the variable in state
