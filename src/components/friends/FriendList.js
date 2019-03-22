@@ -89,6 +89,7 @@ export default class FriendList extends Component {
 
             // if returned is a string, print the error message.  Otherwise post new friend to database
             typeof returned === "string" ? this.setState({errorStatement:returned}):this.props.addNewFriend(returned)
+            this.props.history.push("/friends")
 
         }
         )}

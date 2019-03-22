@@ -436,7 +436,9 @@ export default class ApplicationViews extends Component {
                 deleteMessage={this.deleteMessage}
                 addNewMessage={this.addNewMessage}
                 editMessage={this.editMessage}
-                addNewFriend={this.addNewFriend} />
+                addNewFriend={this.addNewFriend}
+                friendsWithStuff={this.state.friendsWithStuff}
+                currentUsername={this.state.currentUsername}/>
 
             } else {
               return <Redirect to="/login" />

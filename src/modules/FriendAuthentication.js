@@ -16,7 +16,7 @@ const AuthenticateFriend = (user, friendName, currentUsername, friendsWithStuff)
             friendIsInDatabase = true;
             otherFriendId = user[0].id
 
-            console.log("friend is in database", friendIsInDatabase, user.id)
+            console.log("friend is in database", friendIsInDatabase, user[0].id)
             // check to make sure they are not trying to add themself
             if (friendName !== currentUsername) {
                 friendIsNotSelf = true;

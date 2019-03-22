@@ -104,7 +104,7 @@ export default class MessageList extends Component {
     AuthenticateFriend=(friendName, currentUsername, friendsWithStuff)=>{
         AuthenticationManager.checkForUsername(friendName).then(user => {
             const returned = friendAuthentication(user, friendName, currentUsername, friendsWithStuff)
-
+debugger;
             // if returned is a string, print the error message.  Otherwise post new friend to database
             typeof returned === "string" ? this.setState({errorStatement:returned}):this.props.addNewFriend(returned)
 
@@ -144,38 +144,13 @@ export default class MessageList extends Component {
         this.props.addNewMessage(messageToPost)
         this.props.history.push("/messages")
     }
-    // this allows the user to add a friend based on clicking on their username
-    addFriend = (evt, userId) => {
-        evt.preventDefault()
 
-        console.log("user", userId)
-
-
-            (userId !== this.state.activeUser ?
-                console.log("you can't add yourself!") :
-                console.log("this is not you"))
-
-
-        const friendObject =
-        {
-            userId: this.state.activeUser,
-            otherFriendId: userId
-
-        }
-        this.props.addNewFriend(friendObject)
-        this.props.history.push("/messages")
-
-
-
-        // window.alert("you clicked on",userId )
-
-
-    }
 
     render() {
         return <React.Fragment>
             <section className="messages-section">
                 <h1> Messages</h1>
+                <span className="errorStatement">{this.state.errorStatement}</span>
                 <div className="message-container" ref={this.messageContainer}>
                     {this.props.messages.map((message) =>
 
@@ -183,7 +158,8 @@ export default class MessageList extends Component {
                         <React.Fragment>
                             <a href="#" key={message.id} onClick={(evt) => {
                                 this.setState({ friendToAdd: message.userId })
-                                this.addFriend(evt, message.userId)
+                                // this.addFriend(evt, message.userId)
+                                this.AuthenticateFriend(message.user.username, this.props.currentUsername, this.props.friendsWithStuff)
                             }}>
                                 {/* check to see if the message is from the current user and set styling accordingly */}
                                 <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
