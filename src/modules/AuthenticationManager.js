@@ -17,6 +17,11 @@ const AuthenticationManager = {
     checkForUsername(username) {
         return fetch(`http://localhost:5002/users/?username=${username}`)
     .then(r => r.json())
+    },
+
+    checkUsernameAndEmail(username, email) {
+        return fetch(`http://localhost:5002/users/?username=${username}&&email=${email}`)
+        .then(r => r.json())
     }
 
 }
