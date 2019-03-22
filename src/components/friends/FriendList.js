@@ -10,7 +10,7 @@ export default class FriendList extends Component {
         // friendsWithStuff: "",
         // testState: [],
         addFriend: "",
-        errorStatement:"",
+        errorStatement: "",
 
     }
 
@@ -83,16 +83,24 @@ export default class FriendList extends Component {
 
 
     // Give this function friendId, currentUsername, friendsWithStuff
-    AuthenticateFriend=(friendName, currentUsername, friendsWithStuff)=>{
+    AuthenticateFriend = (friendName, currentUsername, friendsWithStuff) => {
         AuthenticationManager.checkForUsername(friendName).then(user => {
             const returned = friendAuthentication(user, friendName, currentUsername, friendsWithStuff)
 
             // if returned is a string, print the error message.  Otherwise post new friend to database
-            typeof returned === "string" ? this.setState({errorStatement:returned}):this.props.addNewFriend(returned)
-            this.props.history.push("/friends")
+
+            if (typeof returned === "string") {
+                this.setState({ errorStatement: returned })
+            }
+            else {
+                this.props.addNewFriend(returned)
+                this.setState({ errorStatement: "" })
+                this.props.history.push("/friends")
+            }
 
         }
-        )}
+        )
+    }
 
 
 
@@ -102,45 +110,48 @@ export default class FriendList extends Component {
 
         return (
             <React.Fragment>
+                <section className="friendsSection">
+                    <h1>Friends</h1>
+                    <input
+                        id="addFriend"
+                        type="text"
+                        placeholder="enter username"
+                        onChange={this.handleFieldChange}></input>
+                    <button className="btn btn-add-friend btn-secondary"
+                        onClick={() => {
+                            this.AuthenticateFriend(this.state.addFriend, this.props.currentUsername, this.props.friendsWithStuff)
+                        }}
 
-                <h1>Friends</h1>
-                <input
-                    id="addFriend"
-                    type="text"
-                    placeholder="enter username"
-                    onChange={this.handleFieldChange}></input>
-                <button className="btn btn-add-friend btn-secondary"
-                onClick={()=>{
-                this.AuthenticateFriend(this.state.addFriend, this.props.currentUsername, this.props.friendsWithStuff)}}
+                    >
+                        Add a Friend</button>
+                    <span className="errorStatement">{this.state.errorStatement}</span>
+                    <div className="friendList">
+                        {this.props.friendsWithStuff.map((friend) =>
+                            <div key={friend.id} className="friendCard">
+                                <div className="card">
+                                    <div className="card-title">
 
-                >
-                Add a Friend</button>
-                <span className="errorStatement">{this.state.errorStatement}</span>
-                {this.props.friendsWithStuff.map((friend) =>
-                    <div key={friend.id} className="card">
-                        <div className="card">
-                            <div className="card-title">
+                                        <span className="friendName">{friend.username}</span><button className="btn-sm btn-del-friend btn-danger"
+                                            onClick={() => {
+                                                // need to figure out friendship ID!!
+                                                this.props.deleteFriend(friend.friendshipId)
+                                                // this.props.history.push("/friends")
+                                            }}>Delete Friend</button>
+                                        {(friend.news.length ? <h5>Articles</h5> : "")}
+                                        {friend.news.map((article) =>
+                                            <p className="friendStyle">{article.title}</p>)}
+                                        {(friend.events.length ? <h5>Events</h5> : "")}
+                                        {friend.events.map((event) =>
+                                            <p className="friendStyle">{event.name}</p>)}
 
-                                <span className="friendName">{friend.username}</span><button className="btn-sm btn-del-friend btn-danger"
-                                    onClick={() => {
-                                        // need to figure out friendship ID!!
-                                        this.props.deleteFriend(friend.friendshipId)
-                                        // this.props.history.push("/friends")
-                                    }}>Delete Friend</button>
-                                {(friend.news.length ? <h5>Articles</h5> : "")}
-                                {friend.news.map((article) =>
-                                    <p className="friendStyle">{article.title}</p>)}
-                                {(friend.events.length ? <h5>Events</h5> : "")}
-                                {friend.events.map((event) =>
-                                    <p className="friendStyle">{event.name}</p>)}
-
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                )}
 
 
+                        )}</div>
+
+                </section>
             </React.Fragment>
         )
 

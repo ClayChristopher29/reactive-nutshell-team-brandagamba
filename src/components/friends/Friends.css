@@ -1,3 +1,7 @@
+.friendsSection{
+margin-left:30px;
+
+}
 .friendName{
 
     font-size: 1.5em;
@@ -26,5 +30,17 @@
 color: red;
 font-weight: bold;
 margin-left: 15px;
+
+}
+.friendList{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+
+
+}
+.friendCard{
+    margin: 10px;
 
 }

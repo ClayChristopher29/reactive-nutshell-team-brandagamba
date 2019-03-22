@@ -53,7 +53,7 @@ const AuthenticateFriend = (user, friendName, currentUsername, friendsWithStuff)
             }
         }
         else {
-            errorStatement = "User is not in the database"
+            errorStatement = `${friendName} is not in the database`
 
         }
         const thingToReturn=(errorStatement===""?friendObject:errorStatement)
