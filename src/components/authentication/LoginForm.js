@@ -19,31 +19,20 @@ export default class LoginForm extends Component {
     logInUser = evt => {
         let errorMessage = ""
         evt.preventDefault();
-        this.props.checkUserName(this.state.username).then(user => {
+        this.props.loginCheck(this.state.username, this.state.email).then(user => {
             if(user.length > 0){
-                this.props.checkUserEmail(this.state.email)
-                .then(user =>
-                    {if(user.length > 0){
                         sessionStorage.setItem("activeUser", user[0].id)
-                        console.log(user)
-                        console.log(user[0].id)
                         this.props.history.push("/")
                         this.props.mountUponLogin()
                     } else {
+                        console.log(user)
                         errorMessage = "This username and email combination does not exist. Please try again or register!"
                         this.setState({
                             errorMessage : errorMessage
                         })
                     }
                 })
-            } else {
-                errorMessage = "This username does not exist. Please try again or register!"
-                this.setState({
-                    errorMessage: errorMessage
-                })
             }
-        })
-    }
 
 
 
@@ -70,5 +59,5 @@ export default class LoginForm extends Component {
 
         )
     }
-
 }
+
