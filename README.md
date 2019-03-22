@@ -41,3 +41,8 @@ In the Notes section, a user may choose to add a new note by clicking on the "Ne
 # Log out
 The user may log out at any time by clicking the "Log Out" link in the nav bar. Upon logging out, the user will be returned to the "Log In" page and will be unable to access their information until logged back in.
 
+
+# Module Map
+
+Module map may be found here:
+https://drive.google.com/file/d/1sUZ6qE8OjvJFE8xua3aZYZaYqiE3m-Cc/view?usp=sharing
