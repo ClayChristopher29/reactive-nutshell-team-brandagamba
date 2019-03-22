@@ -46,3 +46,8 @@ The user may log out at any time by clicking the "Log Out" link in the nav bar. 
 
 Module map may be found here:
 https://drive.google.com/file/d/1sUZ6qE8OjvJFE8xua3aZYZaYqiE3m-Cc/view?usp=sharing
+
+# ERD
+
+ERD map may be found here:
+https://drive.google.com/file/d/19a_rX3Tf20i3Ws7UPCUihLFWfpl-9h-A/view?usp=sharing
