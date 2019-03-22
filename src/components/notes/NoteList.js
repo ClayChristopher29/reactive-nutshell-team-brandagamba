@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-
+import "./Notes.css";
 
 export default class NoteList extends Component {
     render() {
         return (
-            <form>
+            <form className="noteForm">
+                        <h1>Notes</h1>
                 <div className="newButton">
                     <button type="button"
                         className="btn btn-secondary"
@@ -21,7 +22,6 @@ export default class NoteList extends Component {
                             <div key={note.id} className="card">
                                 <div className="card-body">
                                     <h5 className="card-title">
-                                        {/* <img src={dog} alt="" className="icon--dog" /> */}
                                         <p className="newNote">{note.name}</p>
                                         <button className="card-link btn btn-primary"
                                             onClick={() => {

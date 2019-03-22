@@ -1,0 +1,11 @@
+.news-section {
+    max-width: 800px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.NewsHeader {
+    padding-top: 20px;
+    max-width: 800px;
+    margin: auto;
+}

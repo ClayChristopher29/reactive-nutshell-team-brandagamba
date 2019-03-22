@@ -10,7 +10,7 @@ import EventAPIManager from "../modules/EventManager"
 import NoteAPIManager from "../modules/NoteManager"
 import NoteList from "./notes/NoteList"
 import NoteEditForm from './notes/NoteEditForm'
-import AddNote from "./notes/AddNote"
+import NoteForm from "./notes/NoteForm"
 import EventList from './event/EventList'
 import EventForm from './event/EventForm'
 import EventEditForm from './event/EventEditForm'
@@ -323,7 +323,7 @@ export default class ApplicationViews extends Component {
         <Route exact path="/notes/new" render={(props) => {
           if (this.isAuthenticated()) {
 
-            return <AddNote {...props}
+            return <NoteForm {...props}
               addNote={this.addNote}
               notes={this.state.notes}
 

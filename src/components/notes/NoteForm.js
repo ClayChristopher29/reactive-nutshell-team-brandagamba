@@ -38,7 +38,7 @@ export default class AddNote extends Component {
     return (
         <form className="noteForm">
           <div className="form-group">
-            <label htmlFor="Note">New Note</label>
+            <h1 htmlFor="Note">New Note</h1>
             <input
               type="text"
               required

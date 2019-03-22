@@ -14,9 +14,11 @@ export default class EventList extends Component {
     render() {
         return(
           <React.Fragment>
+            <div className="eventHeader">
             <h1>Events</h1>
             <button type="button" className="btn btn-secondary" onClick={() => {
                                 this.props.history.push("/events/new")}}>Add Event</button>
+                                </div>
                <section className="firstClass">
             {this.props.events.sort((a, b) => a.date > b.date ? 1 : -1).map(event=>
                 <div className="carddb" key={event.id}>

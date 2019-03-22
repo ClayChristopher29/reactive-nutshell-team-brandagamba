@@ -17,7 +17,7 @@ export default class TaskList extends Component {
 
   render() {
     return (
-      <div>
+      <div className="tasksHeader">
         <h1>Tasks</h1>
         <button
           className="btn btn-secondary"

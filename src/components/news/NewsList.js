@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Moment from 'react-moment';
-
+import "./News.css"
 
 export default class NewsList extends Component {
 
