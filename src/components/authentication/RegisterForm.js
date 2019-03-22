@@ -59,6 +59,7 @@ export default class RegisterForm extends Component {
     render(){
         return(
             <React.Fragment>
+                <div className="login-container">
             <h1>Please Register</h1>
             <form>
             <div className="form-group">
@@ -72,6 +73,7 @@ export default class RegisterForm extends Component {
             <button type="submit" className="btn btn-primary" onClick={this.createNewUser}>Submit</button>
             </form>
             <h4>{this.state.errorMessage}</h4>
+            </div>
             </React.Fragment>
 
         )
