@@ -101,15 +101,24 @@ export default class MessageList extends Component {
     }
 
     // Give this function friendId, currentUsername, friendsWithStuff
-    AuthenticateFriend=(friendName, currentUsername, friendsWithStuff)=>{
+    AuthenticateFriend = (friendName, currentUsername, friendsWithStuff) => {
         AuthenticationManager.checkForUsername(friendName).then(user => {
             const returned = friendAuthentication(user, friendName, currentUsername, friendsWithStuff)
-debugger;
+
             // if returned is a string, print the error message.  Otherwise post new friend to database
-            typeof returned === "string" ? this.setState({errorStatement:returned}):this.props.addNewFriend(returned)
+            if (typeof returned === "string") {
+                this.setState({ errorStatement: returned })
+                this.props.history.push("/messages")
+            }
+            else {
+                this.props.addNewFriend(returned)
+                this.setState({errorStatement: `You added ${friendName} as a friend`})
+                this.props.history.push("/messages")
+            }
 
         }
-        )}
+        )
+    }
 
 
     // this function handles the input fields and automatically sets the variable in state

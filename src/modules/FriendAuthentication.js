@@ -38,7 +38,7 @@ const AuthenticateFriend = (user, friendName, currentUsername, friendsWithStuff)
 
             }
             else {
-                errorStatement = "This person is already a friend"
+                errorStatement = `${friendName} is already a friend`
 
             }
             // If criteria is met, add the friend to the database
