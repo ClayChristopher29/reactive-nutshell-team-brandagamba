@@ -27,7 +27,6 @@ export default class NewsList extends Component {
           {
             this.props.news.reverse().map((news) =>
               <div key={news.id} className="card">
-                <div className="card">
                   <div className="card-title">
 
                     <h4><u>{news.title}</u></h4>
@@ -50,7 +49,6 @@ export default class NewsList extends Component {
                     </div>
                     </div>
                 </div>
-              </div>
 
             )
           }

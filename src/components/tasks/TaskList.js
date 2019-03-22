@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import NewModalForm from "./NewModalForm.js"
-
+import "./Task.css"
 export default class TaskList extends Component {
   state = {
     showModal: false,
@@ -43,7 +43,7 @@ export default class TaskList extends Component {
         <h1>Tasks</h1>
         {/* Toggles Modal on click */}
         <button
-          className="btn btn-secondary"
+          className="btn btn-secondary modal-button"
           onClick={this.handleModal}
         >
           Add new task
@@ -52,7 +52,7 @@ export default class TaskList extends Component {
         {filteredTasks.map((task) => {
           return (
             <div className="card" style={{width: "18rem"}}>
-            <ul className="list-group list-group-flush">
+            <ul className="list-group list-group-flush dec-task-list">
               <li className="list-group-item">
                 <div key={task.id}>
                 <input

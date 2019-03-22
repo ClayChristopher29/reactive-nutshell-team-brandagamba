@@ -26,7 +26,7 @@ import RegisterForm from "./authentication/RegisterForm"
 import LoginForm from "./authentication/LoginForm"
 import MessageList from "./messages/MessageList"
 import NewModalForm from "./tasks/NewModalForm"
-
+import "./nav/NavBar.css"
 
 
 export default class ApplicationViews extends Component {
