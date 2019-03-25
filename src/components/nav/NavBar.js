@@ -25,18 +25,18 @@ class NavBar extends Component {
                     <li className="nav-item">
                         <Link className="nav-link" to="/friends">Friends</Link>
                     </li>
-                    <li>
-                        <Link className="nav-link" to="/notes">Notes</Link>
-                    </li>
-                    <li className=
-                        "nav-item">
-                        <Link className="nav-link" to="/login" onClick={this.props.handleLogout}>Log Out</Link>
-                    </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/notes">Notes</Link>
+                        </li>
+                        <li className=
+                            "nav-item">
+                            <Link className="nav-link" to="/login" onClick={this.props.handleLogout}>Log Out</Link>
+                        </li>
 
                 </ul>
             </nav>
-        )
-    }
-}
+                )
+            }
+        }
 
-export default NavBar
+        export default NavBar
