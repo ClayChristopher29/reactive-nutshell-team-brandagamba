@@ -1,17 +1,17 @@
 import React, { Component } from "react"
 import './Messages.css'
-
-
-
-
+import AuthenticationManager from "../../modules/AuthenticationManager"
+import friendAuthentication from "../../modules/FriendAuthentication"
 
 export default class MessageList extends Component {
-// define state
+    // define state
     state = {
-        activeUser: this.props.activeUser,
+        activeUser: parseInt(this.props.activeUser),
         message: "",
         messageToEdit: "",
-        someElement: ""
+        someElement: "",
+        friendToAdd: "",
+        errorStatement: ""
     }
 
     componentDidMount = () => {
@@ -34,8 +34,9 @@ export default class MessageList extends Component {
         super(props);
         // create refs that will allow you to select dom elements
         this.messageContainer = React.createRef();
-        this.messageInput=React.createRef()
-      }
+        this.messageInput = React.createRef()
+        this.friendToAdd = React.createRef()
+    }
 
 
     renderSingleMessage = (message) => {
@@ -80,11 +81,10 @@ export default class MessageList extends Component {
 
             </React.Fragment>)
 
-
     }
 
     editThisMessage = () => {
-// this function allows you to create an edited message and PUT it to the database
+        // this function allows you to create an edited message and PUT it to the database
         const editedMessage = {
 
             userId: parseInt(this.state.activeUser),
@@ -100,8 +100,28 @@ export default class MessageList extends Component {
 
     }
 
+    // Give this function friendId, currentUsername, friendsWithStuff
+    AuthenticateFriend = (friendName, currentUsername, friendsWithStuff) => {
+        AuthenticationManager.checkForUsername(friendName).then(user => {
+            const returned = friendAuthentication(user, friendName, currentUsername, friendsWithStuff)
 
-// this function handles the input fields and automatically sets the variable in state
+            // if returned is a string, print the error message.  Otherwise post new friend to database
+            if (typeof returned === "string") {
+                this.setState({ errorStatement: returned })
+                this.props.history.push("/messages")
+            }
+            else {
+                this.props.addNewFriend(returned)
+                this.setState({errorStatement: `You added ${friendName} as a friend`})
+                this.props.history.push("/messages")
+            }
+
+        }
+        )
+    }
+
+
+    // this function handles the input fields and automatically sets the variable in state
     handleFieldChange = evt => {
         const stateToChange = {};
         stateToChange[evt.target.id] = evt.target.value;
@@ -111,11 +131,12 @@ export default class MessageList extends Component {
     // this function is called by the submit button to create a new message to POST
     constructNewMessage = () => {
         // clear the message input field and reset to default
-        const inputNode =this.messageInput.current
-        inputNode.value=""
+        const inputNode = this.messageInput.current
+        inputNode.value = ""
 
 
         // build date and time component based on current date and time
+        // this is not necessary, but I was just playing with time :)
         const today = new Date();
         const date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
         const time = (today.getHours() < 10 ? "0" : "") + today.getHours() + ":" + (today.getMinutes() < 10 ? "0" : "") + today.getMinutes();
@@ -133,18 +154,26 @@ export default class MessageList extends Component {
         this.props.history.push("/messages")
     }
 
+
     render() {
         return <React.Fragment>
             <section className="messages-section">
-                <h2> Messages</h2>
+                <h1> Messages</h1>
+                <span className="errorStatement">{this.state.errorStatement}</span>
                 <div className="message-container" ref={this.messageContainer}>
                     {this.props.messages.map((message) =>
 
+
                         <React.Fragment>
-                            <a href="">
+                            <a href="#" key={message.id} onClick={(evt) => {
+                                this.setState({ friendToAdd: message.userId })
+                                // this.addFriend(evt, message.userId)
+                                this.AuthenticateFriend(message.user.username, this.props.currentUsername, this.props.friendsWithStuff)
+                            }}>
                                 {/* check to see if the message is from the current user and set styling accordingly */}
                                 <span className={(message.userId === parseInt(this.state.activeUser) ? "current" : "other")}>
                                     {message.user.username}</span></a>
+                            {/* Check to see if the edit button has been clicked.  If so, display the form for that msg */}
                             {(this.state.messageToEdit.id === message.id ?
                                 <form>{this.renderEditForm(message)}</form> :
                                 <span>{this.renderSingleMessage(message)}</span>)}
