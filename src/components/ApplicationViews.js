@@ -5,8 +5,7 @@ import UserAPIManager from "../modules/UserManager"
 import NewsAPIManager from "../modules/NewsManager"
 import MessageAPIManager from "../modules/MessageManager"
 import EventAPIManager from "../modules/EventManager"
-// import FriendAPIManager from "../modules/FriendManager"
-// import FriendList from "./friends/FriendList"
+import FriendAPIManager from "../modules/FriendManager"
 import NoteAPIManager from "../modules/NoteManager"
 import NoteList from "./notes/NoteList"
 import NoteEditForm from './notes/NoteEditForm'
@@ -25,6 +24,7 @@ import AuthenticationManager from "../modules/AuthenticationManager"
 import RegisterForm from "./authentication/RegisterForm"
 import LoginForm from "./authentication/LoginForm"
 import MessageList from "./messages/MessageList"
+import FriendList from "./friends/FriendList"
 import NewModalForm from "./tasks/NewModalForm"
 import "./nav/NavBar.css"
 
@@ -39,7 +39,9 @@ export default class ApplicationViews extends Component {
     friends: [],
     notes: [],
     tasks: [],
-    activeUser: sessionStorage.getItem("activeUser")
+    activeUser: sessionStorage.getItem("activeUser"),
+    friendsWithStuff: [],
+    currentUsername: ""
   }
 
   // when login/register route is created, the onClick function will be handled here.
@@ -69,13 +71,13 @@ export default class ApplicationViews extends Component {
         })
       );
 
-      updateNote = editedNoteObject => {
-        return NoteAPIManager.updateNote(editedNoteObject)
-          .then(() => NoteAPIManager.getAllNotes(this.state.activeUser))
-          .then(notes => this.setState({
-            notes: notes
-          }))
-      }
+  updateNote = editedNoteObject => {
+    return NoteAPIManager.updateNote(editedNoteObject)
+      .then(() => NoteAPIManager.getAllNotes(this.state.activeUser))
+      .then(notes => this.setState({
+        notes: notes
+      }))
+  }
 
   // ********** Event Functions ***********
   addEvent = (event) => {
@@ -104,9 +106,45 @@ export default class ApplicationViews extends Component {
         events: events
       }))
   }
+  buildFriendArray = (friends, users) => {
+    const activeUser = parseInt(sessionStorage.getItem("activeUser"))
+
+    // find all the friends when the active user is in the userId place
+    const filteredbyUser = friends.filter((friend) => {
+      return friend.userId === activeUser
+    })
+
+    const mappedbyUser = filteredbyUser.map((each) => [each.otherFriendId, each.id])
+    console.log(mappedbyUser)
+
+    // find all the friends when the active user is in the otherFriendId place
+    const filteredbyFriend = friends.filter((friend) => friend.otherFriendId === activeUser)
+    const mappedbyFriend = filteredbyFriend.map((each) => [each.userId, each.id])
+    // console.log(mappedbyFriend)
+    // Concatenate the arrays together to form one array
+    const friendArray = mappedbyFriend.concat(mappedbyUser)
+    console.log(friendArray)
+    const friendsWithStuff = []
+    friendArray.forEach(id => {
+      console.log("id", id)
+      const friendWithStuff = users.find((user) => user.id === id[0])
+      // Attach the friendship id to the friend object
+      friendWithStuff.friendshipId=id[1]
+      console.log(friendWithStuff)
+      friendsWithStuff.push(friendWithStuff)
+
+    })
+    this.setState({ friendsWithStuff: friendsWithStuff })
+
+    UserAPIManager.getSingleUser(activeUser)
+      .then(user => { this.setState({ currentUsername: user.username }) })
 
 
-  // activeUser=sessionStorage.getItem(activeUser)
+    // return friendsWithStuff
+
+  }
+
+
   mountUponLogin = () => {
     const activeUser = sessionStorage.getItem("activeUser")
     this.setState({ activeUser: activeUser })
@@ -117,7 +155,7 @@ export default class ApplicationViews extends Component {
 
     UserAPIManager.getAllUsers()
       .then(users => newState.users = users)
-      .then(() =>NoteAPIManager.getAllNotes(this.state.activeUser))
+      .then(() => NoteAPIManager.getAllNotes(this.state.activeUser))
       .then(notes => newState.notes = notes)
       .then(() => EventAPIManager.getAllEvents(this.state.activeUser))
       .then(events => newState.events = events)
@@ -125,11 +163,21 @@ export default class ApplicationViews extends Component {
       .then(news => newState.news = news)
       .then(MessageAPIManager.getAllMessages)
       .then(messages => newState.messages = messages)
-      //             .then(FriendAPIManager.getAllFriends)
-      //             .then(friends => newState.friends = friends)
+      .then(FriendAPIManager.getAllFriends)
+      .then(friends => newState.friends = friends)
       .then(() => TaskAPIManager.getAllTasks(this.state.activeUser))
       .then(tasks => newState.tasks = tasks)
-      .then(() => this.setState(newState))
+      .then(() => {
+        this.buildFriendArray(newState.friends, newState.users)
+        this.setState(newState)
+      })
+
+
+
+    // this.buildFriendArray(newState)
+
+
+
   }
 
   componentDidMount() {
@@ -225,9 +273,33 @@ export default class ApplicationViews extends Component {
     return AuthenticationManager.registerNewUser(userObject)
   }
 
+
+  addNewFriend = (friendObject) => {
+    return FriendAPIManager.addNewFriend(friendObject)
+      .then(FriendAPIManager.getAllFriends)
+      .then(friends => {
+        this.setState({ friends: friends })
+        this.buildFriendArray(friends, this.state.users)
+      })
+  }
+
+  deleteFriend = (id) => {
+    return FriendAPIManager.deleteFriend(id)
+      .then(FriendAPIManager.getAllFriends)
+      .then(friends => {
+        this.setState({ friends: friends })
+        this.buildFriendArray(friends, this.state.users)
+      })
+  }
+
+
+
+
+
   loginCheck = (username, email) => {
     return AuthenticationManager.checkUsernameAndEmail(username, email)
   }
+
 
   render() {
     return (
@@ -300,15 +372,30 @@ export default class ApplicationViews extends Component {
           }}
         />
 
+
         <Route
           path="/friends" render={props => {
-            return null
-            // Remove null and return the component which will show the messages
+            if (this.isAuthenticated()) {
+              return <FriendList {...props}
+                friends={this.state.friends}
+                activeUser={this.state.activeUser}
+                users={this.state.users}
+                friendsWithStuff={this.state.friendsWithStuff}
+                getFriendsWithStuff={this.getFriendsWithStuff}
+                buildFriendArray={this.buildFriendArray}
+                checkUsername={this.checkUserName}
+                currentUsername={this.state.currentUsername}
+                addNewFriend={this.addNewFriend}
+                deleteFriend={this.deleteFriend} />
+            }
+            else {
+              return <Redirect to="/login" />
+            }
           }}
         />
 
         <Route
-           exact path="/notes" render={props => {
+          exact path="/notes" render={props => {
             if (this.isAuthenticated()) {
 
               return <NoteList {...props}
@@ -338,13 +425,13 @@ export default class ApplicationViews extends Component {
           }
 
         }} />
-  <Route
+        <Route
           exact path="/notes/:noteId(\d+)/edit" render={props => {
-             if(this.isAuthenticated()) {
-            return <NoteEditForm  {...props} notes={this.state.notes} updateNote={this.updateNote}/>
-             } else {
-               return <Redirect to="/login" />
-             }
+            if (this.isAuthenticated()) {
+              return <NoteEditForm  {...props} notes={this.state.notes} updateNote={this.updateNote} />
+            } else {
+              return <Redirect to="/login" />
+            }
           }}
         />
 
@@ -356,7 +443,11 @@ export default class ApplicationViews extends Component {
                 messages={this.state.messages}
                 deleteMessage={this.deleteMessage}
                 addNewMessage={this.addNewMessage}
-                editMessage={this.editMessage} />
+                editMessage={this.editMessage}
+                addNewFriend={this.addNewFriend}
+                friendsWithStuff={this.state.friendsWithStuff}
+                currentUsername={this.state.currentUsername}/>
+
             } else {
               return <Redirect to="/login" />
             }

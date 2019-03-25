@@ -1,7 +1,7 @@
 export default {
 
     getAllUsers: () => {
-      return fetch("http://localhost:5002/users")
+      return fetch("http://localhost:5002/users?&_embed=news&_embed=events")
         .then(r => r.json())
     },
     getSingleUser: (id) => {

@@ -59,3 +59,7 @@ margin-left: 10px;
 .btn-success {
     margin-top: 15px;
 }
+.errorStatement{
+    color: red;
+    font-weight: bold;
+}
