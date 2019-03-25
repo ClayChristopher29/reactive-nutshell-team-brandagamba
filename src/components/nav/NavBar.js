@@ -9,7 +9,7 @@ class NavBar extends Component {
 
         return (
             <nav className="navbar navbar-light light-blue flex-md-nowrap p-0 shadow">
-                <ul className="nav nav-pills nav-fill">
+                <ul className="nav nav-pills nav-fill decNav">
                     <li className="nav-item">
                         <Link className="nav-link" to="/">News</Link>
                     </li>
@@ -25,18 +25,18 @@ class NavBar extends Component {
                     <li className="nav-item">
                         <Link className="nav-link" to="/friends">Friends</Link>
                     </li>
-                    <li>
-                        <Link className="nav-link" to="/notes">Notes</Link>
-                    </li>
-                    <li className=
-                        "nav-item">
-                        <Link className="nav-link" to="/login" onClick={this.props.handleLogout}>Log Out</Link>
-                    </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/notes">Notes</Link>
+                        </li>
+                        <li className=
+                            "nav-item">
+                            <Link className="nav-link" to="/login" onClick={this.props.handleLogout}>Log Out</Link>
+                        </li>
 
                 </ul>
             </nav>
-        )
-    }
-}
+                )
+            }
+        }
 
-export default NavBar
+        export default NavBar

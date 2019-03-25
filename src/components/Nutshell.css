@@ -1,3 +1,23 @@
 .link {
     color: black;
 }
+
+.card {
+  margin-top: 10px;
+  border: black 1px solid;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-shadow: 5px 10px 20px #333;
+}
+
+.btn {
+  margin-left: 10px;
+}
+
+label {
+  font-size: 1.5rem;
+}
+
+p {
+  font-size: 1.5rem;
+}

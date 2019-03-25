@@ -45,7 +45,7 @@ export default class NoteEditForm extends Component {
         return(
             <form>
     <div className="form-group">
-    <label htmlFor="formNoteInput">Edit Note</label>
+    <h1 htmlFor="formNoteInput">Edit Note</h1>
     <input type="text" className="form-control" id="name" value={this.state.name} onChange={this.handleFieldChange} />
     </div>
 
